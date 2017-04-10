@@ -1,6 +1,8 @@
 import java.util.*;
 public class DataCenter {
 	private HashMap<Node, Rating> map;
+	private HashSet<User> users;
+	private HashSet<Movie> movies;
 	private FileReader fr;
 	
 	public DataCenter() {
@@ -63,5 +65,13 @@ public class DataCenter {
 			}
 		}
 		return 1.0 * sum / count;
+	}
+	
+	public HashSet<User> getUsers() {
+		return users;
+	}
+	
+	public HashSet<Movie> getMovies() {
+		return movies;
 	}
 }

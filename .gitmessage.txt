@@ -1,5 +1,5 @@
-Finish DataCenter class
+Finish AlgorithmKNN class
 
-loadData() has not been implemented
+ - Main has not been implemented
 
 [ticket: patrick_pu]
