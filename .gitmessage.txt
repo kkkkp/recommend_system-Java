@@ -1,0 +1,5 @@
+Finish DataCenter class
+
+loadData() has not been implemented
+
+[ticket: patrick_pu]

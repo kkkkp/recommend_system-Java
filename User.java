@@ -9,4 +9,8 @@ public class User {
 	public int getId() {
 		return id;
 	}
+	
+	public boolean equals(User u) {
+		return id == u.getId();
+	}
 }

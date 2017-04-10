@@ -15,4 +15,8 @@ public class Movie {
 	public String getTitle() {
 		return title;
 	}
+	
+	public boolean equals(Movie m) {
+		return id == m.getId();
+	}
 }
