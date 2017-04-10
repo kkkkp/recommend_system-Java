@@ -1,4 +1,8 @@
-
+/**
+ * For priorityqueue in AlgorithmKNN
+ * @author Patrick_Pu
+ *
+ */
 public class UserContainer implements Comparable<UserContainer>{
 	private User user;
 	private double similarity;

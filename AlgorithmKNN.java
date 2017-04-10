@@ -1,8 +1,16 @@
 import java.util.*;
-
+/**
+ * 
+ * @author Patrick_Pu
+ *
+ */
 public class AlgorithmKNN implements Algorithm {
+	/**
+	 * 
+	 */
 	private DataCenter dc;
 	private int SIZE = 20;
+	
 	@Override
 	public void loadDataCenter(DataCenter dc) {
 		this.dc = dc;
@@ -24,7 +32,6 @@ public class AlgorithmKNN implements Algorithm {
 
 	@Override
 	public List<Movie> getTopNRatingMovies(User user, int n) {
-		// TODO Auto-generated method stub
 		List<Movie> movies = new ArrayList<>();
 		PriorityQueue<MovieContainer> pq = new PriorityQueue<>();
 		
@@ -46,6 +53,12 @@ public class AlgorithmKNN implements Algorithm {
 		return movies;
 	}
 	
+	/**
+	 * 
+	 * @param u1
+	 * @param u2
+	 * @return
+	 */
 	private double getSimilarity(User u1, User u2) {
 		List<Movie> commons = getCommonMovies(u1, u2);
 		double numerator = 0, denominator1 = 0, denominator2 = 0;
@@ -65,6 +78,11 @@ public class AlgorithmKNN implements Algorithm {
 		return numerator / (Math.pow(denominator1 * denominator2, 0.5));
 	}
 	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
 	private List<User> getNeighbors(User user) {
 		List<User> neighbors = new ArrayList<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
@@ -89,6 +107,12 @@ public class AlgorithmKNN implements Algorithm {
 		return neighbors;
 	}
 	
+	/**
+	 * 
+	 * @param u1
+	 * @param u2
+	 * @return
+	 */
 	private List<Movie> getCommonMovies(User u1, User u2) {
 		List<Movie> movies = new ArrayList<>();
 		List<Movie> m1 = dc.getMoviesByUser(u1);

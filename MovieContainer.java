@@ -1,4 +1,8 @@
-
+/**
+ * For priorityqueue in AlgorithmKNN
+ * @author Patrick_Pu
+ *
+ */
 public class MovieContainer implements Comparable<MovieContainer> {
 	private Movie movie;
 	private double predict;
