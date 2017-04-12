@@ -23,7 +23,6 @@ public class AlgorithmKNN implements Algorithm {
 	@Override
 	public double getRatingByUserAndMovie(int uid, int mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
-//		System.out.println(" - neighbors: " + neighbors);
 		
 		double avg = dc.getAvgRatingScoreByUser(uid);
 		double numerator = 0, denominator = 0;
@@ -42,6 +41,8 @@ public class AlgorithmKNN implements Algorithm {
 		Set<Integer> movies = new HashSet<>();
 		PriorityQueue<MovieContainer> pq = new PriorityQueue<>();
 		int count = 0;
+		long start = System.currentTimeMillis();
+		long end = 0;
 		for (Integer mid: dc.getMovies().keySet()) {
 			count++;
 			if (dc.getMoviesByUser(uid).contains(mid)) {
@@ -55,10 +56,11 @@ public class AlgorithmKNN implements Algorithm {
 				pq.poll();
 				pq.offer(mc);
 			}
-//			if (count % 5 == 0) {
-//				System.out.println(" - Process... " + count);
-//			}
-			
+			end = System.currentTimeMillis();
+			if (end - start > 10000) {
+				System.out.println(" - Heartbeating " + (end -  start) + " @" + count);
+				start = end;
+			}
 		}
 		
 		while (!pq.isEmpty()) {
