@@ -1,30 +1,15 @@
 
 public class Movie {
 	private int id;
-	private String title;
 	
 	public Movie(int id) {
-		this.title = "";
 		this.id = id;
 	}
 
-	public Movie(String title, int id) {
-		this.title = title;
-		this.id = id;
-	}
-	
-	public String toString() {
-		return id + "," + title;
-	}
-	
 	public int getId() {
 		return id;
 	}
-	
-	public String getTitle() {
-		return title;
-	}
-	
+
 	public boolean equals(Movie m) {
 		return id == m.getId();
 	}

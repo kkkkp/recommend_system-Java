@@ -16,18 +16,24 @@ public class AlgorithmKNN implements Algorithm {
 
 	@Override
 	public double getRatingByUserAndMovie(User user, Movie movie) {
+		System.out.println("Getting neighbors...");
 		List<User> neighbors = getNeighbors(user, movie);
 //		for (User neighbor : neighbors) {
 //			System.out.println(neighbor.getId());
 //		}
+		System.out.println("Done!");
+		System.out.println("Getting user average...");
 		double avg = dc.getAvgRatingScoreByUser(user);
 		double numerator = 0, denominator = 0;
-
+		System.out.println("Done!");
+		
+		System.out.println("Getting kNN...");
 		for (User u : neighbors) {
 			double s = u.getSimilarity();
 			numerator += s * (dc.getRating(u, movie) - dc.getAvgRatingScoreByUser(u));
 			denominator += Math.abs(s);
 		}
+		System.out.println("Done!");
 		
 		if (denominator == 0) {
 			return avg;
@@ -64,7 +70,7 @@ public class AlgorithmKNN implements Algorithm {
 	 * @return
 	 */
 	private double getSimilarity(User u1, User u2) {
-		List<Movie> commons = getCommonMovies(u1, u2);
+		Set<Movie> commons = getCommonMovies(u1, u2);
 
 		double numerator = 0, denominator1 = 0, denominator2 = 0;
 		double avg1 = dc.getAvgRatingScoreByUser(u1);
@@ -98,8 +104,11 @@ public class AlgorithmKNN implements Algorithm {
 		List<User> neighbors = new ArrayList<>();
 		PriorityQueue<User> pq = new PriorityQueue<>();
 
-		for (User neighbor : dc.getUsers()) {
-			if (!neighbor.equals(user) && dc.getRating(neighbor, movie) != -1) {
+		int count = 0;
+		for (User neighbor : dc.getUsersByMovie(movie)) {
+			count++;
+			System.out.println(count);
+			if (!neighbor.equals(user)) {
 				neighbor.setSimilarity(getSimilarity(user, neighbor));
 //				System.out.println(neighbor.toString());
 				if (pq.size() < SIZE) {
@@ -124,16 +133,11 @@ public class AlgorithmKNN implements Algorithm {
 	 * @param u2
 	 * @return
 	 */
-	private List<Movie> getCommonMovies(User u1, User u2) {
-		List<Movie> movies = new ArrayList<>();
-		List<Movie> m1 = dc.getMoviesByUser(u1);
-		HashSet<Movie> set = new HashSet<>(dc.getMoviesByUser(u2));
-
-		for (Movie m : m1) {
-			if (set.contains(m)) {
-				movies.add(m);
-			}
-		}
-		return movies;
+	private Set<Movie> getCommonMovies(User u1, User u2) {
+		Set<Movie> m1 = dc.getMoviesByUser(u1);
+		Set<Movie> m2 = dc.getMoviesByUser(u2);
+		m1.retainAll(m2);
+		
+		return m1;
 	}
 }

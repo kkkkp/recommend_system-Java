@@ -5,9 +5,9 @@ import java.util.*;
  *
  */
 public class DataCenter {
-	private HashMap<Node, Rating> map;
-	private HashSet<User> users;
-	private HashSet<Movie> movies;
+	private Map<Node, Double> map;
+	private Map<User, Set<Movie>> rated;
+	private Set<Movie> movies;
 	private FileReader fr;
 	
 	/**
@@ -15,7 +15,7 @@ public class DataCenter {
 	 */
 	public DataCenter() {
 		this.map = new HashMap<>();
-		this.users = new HashSet<>();
+		this.rated = new HashMap<>();
 		this.movies = new HashSet<>();
 	}
 	
@@ -25,24 +25,21 @@ public class DataCenter {
 	 */
 	public void loadData(String filename) {
 		this.fr = new FileReader(filename);
-		int count = 1;
 		
 		for (String line : fr.getLines()) {
-			System.out.println(count);
-			count++;
 //			System.out.println(line);
 			StringTokenizer st = new StringTokenizer(line, "::");
 			User user = new User(Integer.parseInt(st.nextToken()));
-//			System.out.println(user.getId());
 			Movie movie = new Movie(Integer.parseInt(st.nextToken()));
-//			System.out.println(movie.getId());
 			Node node = new Node(user, movie);
-			Rating rating = new Rating(Double.parseDouble(st.nextToken()));
-//			System.out.println(rating.toNumber());
+			double rating = Double.parseDouble(st.nextToken());
 			
-			users.add(user);
-			movies.add(movie);
 			map.put(node, rating);
+			if (!rated.containsKey(user)) {
+				rated.put(user, new HashSet<>());
+			}
+			rated.get(user).add(movie);
+			movies.add(movie);
 		}
 	}
 	
@@ -66,14 +63,8 @@ public class DataCenter {
 	 * @param user
 	 * @return
 	 */
-	public List<Movie> getMoviesByUser(User user) {
-		List<Movie> movies = new ArrayList<>();
-		for (Node n: map.keySet()) {
-			if (n.getUser().equals(user)) {
-				movies.add(n.getMovie());
-			}
-		}
-		return movies;
+	public Set<Movie> getMoviesByUser(User user) {
+		return rated.get(user);
 	}
 	
 	/**
@@ -88,7 +79,7 @@ public class DataCenter {
 			return -1;
 		}
 		else {
-			return map.get(n).toNumber();
+			return map.get(n);
 		}
 	}
 	
@@ -103,7 +94,7 @@ public class DataCenter {
 		for (Node n: map.keySet()) {
 			if (n.getUser().equals(user)) {
 				count++;
-				sum += map.get(n).toNumber();
+				sum += map.get(n);
 			}
 		}
 		return 1.0 * sum / count;
@@ -120,7 +111,7 @@ public class DataCenter {
 		for (Node n: map.keySet()) {
 			if (n.getMovie().equals(movie)) {
 				count++;
-				sum += map.get(n).toNumber();
+				sum += map.get(n);
 			}
 		}
 		return 1.0 * sum / count;
@@ -130,15 +121,7 @@ public class DataCenter {
 	 * 
 	 * @return
 	 */
-	public HashSet<User> getUsers() {
-		return users;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public HashSet<Movie> getMovies() {
+	public Set<Movie> getMovies() {
 		return movies;
 	}
 }
