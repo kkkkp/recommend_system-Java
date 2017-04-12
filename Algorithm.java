@@ -1,25 +1,30 @@
 import java.util.*;
 
+/**
+ * Interface of algorithm. Provides basic functionalities to users.
+ * @author Han Zhu
+ *
+ */
 public interface Algorithm {
 	/**
-	 * 
-	 * @param dc
+	 * Link the algorithm to data.
+	 * @param dc data storage.
 	 */
 	public void loadDataCenter(DataCenter dc);
 	
 	/**
-	 * 
-	 * @param user
+	 * Provide functionality a: given a user and item, predict the user's preference for the item.
+	 * @param user 
 	 * @param movie
-	 * @return
+	 * @return the predicted rating of user for movie.
 	 */
-	public double getRatingByUserAndMovie(User user, Movie movie);
+	public double getRatingByUserAndMovie(int uid, int mid);
 	
 	/**
-	 * 
+	 * Provide functionality b: given a user and a number n, predict user's top n highest-rated items.
 	 * @param user
-	 * @param n
-	 * @return
+	 * @param n threshold
+	 * @return user's top n highest-rated items.
 	 */
-	public List<Movie> getTopNRatingMovies(User user, int n);
+	public Set<Integer> getTopNRatingMovies(int uid, int n);
 }

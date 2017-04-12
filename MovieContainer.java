@@ -1,21 +1,34 @@
 /**
- * For priorityqueue in AlgorithmKNN
+ * For priority queue in AlgorithmKNN
  * @author Patrick_Pu
  *
  */
 public class MovieContainer implements Comparable<MovieContainer> {
-	private Movie movie;
+	private int mid;
 	private double predict;
 
-	public MovieContainer(Movie movie, double predict) {
-		this.movie = movie;
+	/**
+	 * Assign mid and predicted rating to instance variables.
+	 * @param mid movie id
+	 * @param predict predicted rating
+	 */
+	public MovieContainer(int mid, double predict) {
+		this.mid = mid;
 		this.predict = predict;
 	}
 
-	public Movie getMovie() {
-		return movie;
+	/**
+	 * Getter for id.
+	 * @return movie id.
+	 */
+	public int getId() {
+		return mid;
 	}
 
+	/**
+	 * Getter for predicted rating.
+	 * @return predict
+	 */
 	public double getPredict() {
 		return predict;
 	}

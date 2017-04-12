@@ -1,126 +1,91 @@
 import java.util.*;
+
 /**
- * 
+ * Storage for user-provided data.
  * @author Patrick_Pu
  *
  */
 public class DataCenter {
-	/**
-	 * 
-	 */
-	private HashMap<Node, Rating> map;
-	private HashSet<User> users;
-	private HashSet<Movie> movies;
+	private HashMap<Integer, User> users;
+	private HashMap<Integer, Movie> movies;
 	private FileReader fr;
 	
 	/**
-	 * 
+	 * Initialize instance variables.
 	 */
 	public DataCenter() {
-		this.map = new HashMap<>();
+		this.users = new HashMap<>();
+		this.movies = new HashMap<>();
 	}
 	
 	/**
-	 * TODO
-	 * @param filename
+	 * Initialize a FileReader object to read file.
+	 * @param filename name of file to read.
 	 */
 	public void loadData(String filename) {
-		this.fr = new FileReader(filename);
-	}
+		this.fr = new FileReader(filename, users, movies);	
+	} 
 	
 	/**
-	 * 
-	 * @param movie
-	 * @return
+	 * Getter for users.
+	 * @return all users
 	 */
-	public List<User> getUsersByMovie(Movie movie) {
-		List<User> users = new ArrayList<>();
-		for (Node n: map.keySet()) {
-			if (n.getMovie().equals(movie)) {
-				users.add(n.getUser());
-			}
-		}
+	public HashMap<Integer, User> getUsers() {
 		return users;
 	}
 	
 	/**
-	 * 
-	 * @param user
-	 * @return
+	 * Get all movies.
+	 * @return all movies.
 	 */
-	public List<Movie> getMoviesByUser(User user) {
-		List<Movie> movies = new ArrayList<>();
-		for (Node n: map.keySet()) {
-			if (n.getUser().equals(user)) {
-				movies.add(n.getMovie());
-			}
-		}
+	public HashMap<Integer, Movie> getMovies() {
 		return movies;
 	}
+
 	
 	/**
-	 * 
+	 * Get the users who have rated the movie.
+	 * @param movie movie that users have all rated.
+	 * @return a set of user ids.
+	 */
+	public Set<Integer> getUsersByMovie(int mid) {
+		return movies.get(mid).getUsers();
+	}
+	
+	/**
+	 * Get the movies that a user have rated.
 	 * @param user
-	 * @param movie
-	 * @return
+	 * @return all movies that user have rated.
 	 */
-	public int getRating(User user, Movie movie) {
-		Node n = new Node(user, movie);
-		if (!map.containsKey(n)) {
-			return -1;
-		}
-		else {
-			return map.get(n).toNumber();
-		}
+	public Set<Integer> getMoviesByUser(int uid) {
+		return users.get(uid).getMovies();
 	}
 	
 	/**
-	 * 
-	 * @param user
-	 * @return
+	 * Get a user rating on a movie.
+	 * @param uid user
+	 * @param mid movie
+	 * @return user's rating on movie.
 	 */
-	public double getAvgRatingScoreByUser(User user) {
-		int count = 0;
-		int sum = 0;
-		for (Node n: map.keySet()) {
-			if (n.getUser().equals(user)) {
-				count++;
-				sum += map.get(n).toNumber();
-			}
-		}
-		return 1.0 * sum / count;
+	public double getRating(int uid, int mid) {
+		return users.get(uid).getScore(mid);
 	}
 	
 	/**
-	 * 
-	 * @param movie
-	 * @return
+	 * Get the average rating of a user.
+	 * @param uid user id
+	 * @return average rating of user.
 	 */
-	public double getAvgRatingScoreByMovie(Movie movie) {
-		int count = 0;
-		int sum = 0;
-		for (Node n: map.keySet()) {
-			if (n.getMovie().equals(movie)) {
-				count++;
-				sum += map.get(n).toNumber();
-			}
-		}
-		return 1.0 * sum / count;
+	public double getAvgRatingScoreByUser(int uid) {
+		return users.get(uid).getAvg();
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Calculate average rating of a movie.
+	 * @param mid movie id
+	 * @return average rating of movie.
 	 */
-	public HashSet<User> getUsers() {
-		return users;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public HashSet<Movie> getMovies() {
-		return movies;
+	public double getAvgRatingScoreByMovie(int mid) {
+		return movies.get(mid).getAvg();
 	}
 }

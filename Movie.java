@@ -1,22 +1,60 @@
+import java.util.*;
 
+/**
+ * Wrapper class for a movie.
+ * @author Han Zhu
+ *
+ */
 public class Movie {
-	private int id;
-	private String title;
+	private HashMap<Integer, Double> ratings;
+	private double avg;
 	
-	public Movie(String title, int id) {
-		this.title = title;
-		this.id = id;
+	/**
+	 * Initialize instance variables.
+	 */
+	public Movie() {
+		this.ratings = new HashMap<>();
+		this.avg = -1;
 	}
 	
-	public int getId() {
-		return id;
+	/**
+	 * Put data into hashmap.
+	 * @param uid user who rated this movie
+	 * @param score rating
+	 */
+	public void insert(int uid, double score) {
+		ratings.put(uid, score);
 	}
 	
-	public String getTitle() {
-		return title;
+	/**
+	 * Calcuate average rating of this movie.
+	 * @return average rating of this movie.
+	 */
+	public double getAvg() {
+		if (avg == -1) {
+			double sum = 0;
+			for (double d: ratings.values()) {
+				sum += d;
+			}
+			avg = sum / ratings.size();
+		}
+		return avg;
 	}
 	
-	public boolean equals(Movie m) {
-		return id == m.getId();
+	/**
+	 * Get a user's rating on this movie.
+	 * @param uid user
+	 * @return rating on this movie.
+	 */
+	public double getScore(int uid) {
+		return ratings.get(uid);
+	}
+	
+	/**
+	 * Get all users who rated this movie.
+	 * @return all users who rated this movie.
+	 */
+	public Set<Integer> getUsers() {
+		return ratings.keySet();
 	}
 }

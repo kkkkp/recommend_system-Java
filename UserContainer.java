@@ -1,23 +1,36 @@
 /**
- * For priorityqueue in AlgorithmKNN
+ * For priority queue in AlgorithmKNN
  * @author Patrick_Pu
  *
  */
 public class UserContainer implements Comparable<UserContainer>{
-	private User user;
+	private int uid;
 	private double similarity;
 
-	public UserContainer(User user, double similarity) {
-		this.user = user;
+	/**
+	 * Assign user id and similarity to instance variables.
+	 * @param uid user id
+	 * @param similarity similarity calculated in AlgorithmKNN
+	 */
+	public UserContainer(int uid, double similarity) {
+		this.uid = uid;
 		this.similarity = similarity;
 	}
 
+	/**
+	 * Getter for similarity.
+	 * @return similarity
+	 */
 	public double getSimilarity() {
 		return similarity;
 	}
 
-	public User getUser() {
-		return user;
+	/**
+	 * Getter for user id.
+	 * @return user id
+	 */
+	public int getId() {
+		return uid;
 	}
 
 	@Override
