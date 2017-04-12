@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Scanner;
 public class FileReader {
 	
 	private String filename;
-	private ArrayList<String> lines;
+	private List<String> lines;
 	
 	/**
 	 * The constructor
@@ -36,7 +37,7 @@ public class FileReader {
 			}
 			in.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Please enter a valid file name.");
 		}
 	}
 	
@@ -44,7 +45,7 @@ public class FileReader {
 	 * The accessor method for lines
 	 * @return the lines arraylist
 	 */
-	public ArrayList<String> getLines() {
+	public List<String> getLines() {
 		return lines;
 	}
 }

@@ -5,9 +5,6 @@ import java.util.*;
  *
  */
 public class DataCenter {
-	/**
-	 * 
-	 */
 	private HashMap<Node, Rating> map;
 	private HashSet<User> users;
 	private HashSet<Movie> movies;
@@ -18,14 +15,35 @@ public class DataCenter {
 	 */
 	public DataCenter() {
 		this.map = new HashMap<>();
+		this.users = new HashSet<>();
+		this.movies = new HashSet<>();
 	}
 	
 	/**
-	 * TODO
+	 * 
 	 * @param filename
 	 */
 	public void loadData(String filename) {
 		this.fr = new FileReader(filename);
+		int count = 1;
+		
+		for (String line : fr.getLines()) {
+			System.out.println(count);
+			count++;
+//			System.out.println(line);
+			StringTokenizer st = new StringTokenizer(line, "::");
+			User user = new User(Integer.parseInt(st.nextToken()));
+//			System.out.println(user.getId());
+			Movie movie = new Movie(Integer.parseInt(st.nextToken()));
+//			System.out.println(movie.getId());
+			Node node = new Node(user, movie);
+			Rating rating = new Rating(Double.parseDouble(st.nextToken()));
+//			System.out.println(rating.toNumber());
+			
+			users.add(user);
+			movies.add(movie);
+			map.put(node, rating);
+		}
 	}
 	
 	/**
@@ -64,7 +82,7 @@ public class DataCenter {
 	 * @param movie
 	 * @return
 	 */
-	public int getRating(User user, Movie movie) {
+	public double getRating(User user, Movie movie) {
 		Node n = new Node(user, movie);
 		if (!map.containsKey(n)) {
 			return -1;

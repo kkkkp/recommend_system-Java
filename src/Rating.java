@@ -1,11 +1,17 @@
 
 public class Rating {
-	private int score;
+	private double score;
 	private boolean liked;
 	private boolean purchased;
 	
 	public Rating() {
 		this.score = 0;
+		this.liked = false;
+		this.purchased = false;
+	}
+	
+	public Rating(double score) {
+		this.score = score;
 		this.liked = false;
 		this.purchased = false;
 	}
@@ -22,7 +28,7 @@ public class Rating {
 		this.purchased = purchased;
 	}
 	
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 	
@@ -34,7 +40,7 @@ public class Rating {
 		return purchased;
 	}
 	
-	public int toNumber() {
+	public double toNumber() {
 		return score;
 	}
 }

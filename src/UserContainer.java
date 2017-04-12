@@ -1,5 +1,5 @@
 /**
- * For priorityqueue in AlgorithmKNN
+ * For priority queue in AlgorithmKNN
  * @author Patrick_Pu
  *
  */
