@@ -4,16 +4,16 @@
  *
  */
 public class MovieContainer implements Comparable<MovieContainer> {
-	private Movie movie;
+	private int mid;
 	private double predict;
 
-	public MovieContainer(Movie movie, double predict) {
-		this.movie = movie;
+	public MovieContainer(int mid, double predict) {
+		this.mid = mid;
 		this.predict = predict;
 	}
 
-	public Movie getMovie() {
-		return movie;
+	public int getId() {
+		return mid;
 	}
 
 	public double getPredict() {

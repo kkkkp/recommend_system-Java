@@ -1,22 +1,34 @@
+import java.util.*;
 
 public class Movie {
-	private int id;
-//	private String title;
+	private HashMap<Integer, Double> ratings;
+	private double avg;
 	
-	public Movie(int id) {
-//		this.title = title;
-		this.id = id;
+	public Movie() {
+		this.ratings = new HashMap<>();
+		this.avg = -1;
 	}
 	
-	public int getId() {
-		return id;
+	public void insert(int uid, double score) {
+		ratings.put(uid, score);
 	}
 	
-//	public String getTitle() {
-//		return title;
-//	}
+	public double getAvg() {
+		if (avg == -1) {
+			double sum = 0;
+			for (double d: ratings.values()) {
+				sum += d;
+			}
+			avg = sum / ratings.size();
+		}
+		return avg;
+	}
 	
-	public boolean equals(Movie m) {
-		return id == m.getId();
+	public double getScore(int uid) {
+		return ratings.get(uid);
+	}
+	
+	public Set<Integer> getUsers() {
+		return ratings.keySet();
 	}
 }

@@ -1,18 +1,18 @@
 
 public class Node {
-	private User user;
-	private Movie movie;
+	private int user;
+	private int movie;
 	
-	public Node(User user, Movie movie) {
+	public Node(int user, int movie) {
 		this.user = user;
 		this.movie = movie;
 	}
 	
-	public User getUser() {
+	public int getUserID() {
 		return user;
 	}
 	
-	public Movie getMovie() {
+	public int getMovieID() {
 		return movie;
 	}
 }

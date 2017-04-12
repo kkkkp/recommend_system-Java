@@ -1,18 +1,18 @@
 
 public class Rating {
-	private int score;
+	private double score;
 //	private boolean liked;
 //	private boolean purchased;
 	
-	public Rating() {
-		this.score = 0;
+	public Rating(double score) {
+		this.score = score;
 //		this.liked = false;
 //		this.purchased = false;
 	}
 	
-	public void setScore(int score) {
-		this.score = score;
-	}
+//	public void setScore(double score) {
+//		this.score = score;
+//	}
 	
 //	public void setLiked(boolean liked) {
 //		this.liked = liked;
@@ -22,7 +22,7 @@ public class Rating {
 //		this.purchased = purchased;
 //	}
 	
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 	
@@ -34,7 +34,7 @@ public class Rating {
 //		return purchased;
 //	}
 	
-	public int toNumber() {
+	public double toNumber() {
 		return score;
 	}
 }

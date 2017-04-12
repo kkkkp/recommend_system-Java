@@ -4,11 +4,11 @@
  *
  */
 public class UserContainer implements Comparable<UserContainer>{
-	private User user;
+	private int uid;
 	private double similarity;
 
-	public UserContainer(User user, double similarity) {
-		this.user = user;
+	public UserContainer(int uid, double similarity) {
+		this.uid = uid;
 		this.similarity = similarity;
 	}
 
@@ -16,8 +16,8 @@ public class UserContainer implements Comparable<UserContainer>{
 		return similarity;
 	}
 
-	public User getUser() {
-		return user;
+	public int getId() {
+		return uid;
 	}
 
 	@Override

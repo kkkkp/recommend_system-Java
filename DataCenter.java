@@ -8,16 +8,17 @@ public class DataCenter {
 	/**
 	 * 
 	 */
-	private HashMap<Node, Rating> map;
-	private HashSet<User> users;
-	private HashSet<Movie> movies;
+	
+	private HashMap<Integer, User> users;
+	private HashMap<Integer, Movie> movies;
 	private FileReader fr;
 	
 	/**
 	 * 
 	 */
 	public DataCenter() {
-		this.map = new HashMap<>();
+		this.users = new HashMap<>();
+		this.movies = new HashMap<>();
 	}
 	
 	/**
@@ -26,94 +27,42 @@ public class DataCenter {
 	 */
 	public void loadData(String filename) {
 		this.fr = new FileReader(filename);
-		System.out.println("Successfully read in: " + fr.getLines().size() + " lines");
-	}
-	
-	/**
-	 * 
-	 * @param movie
-	 * @return
-	 */
-	public List<User> getUsersByMovie(Movie movie) {
-		List<User> users = new ArrayList<>();
-		for (Node n: map.keySet()) {
-			if (n.getMovie().equals(movie)) {
-				users.add(n.getUser());
+
+		int count = 0, uid = 0, mid = 0;
+		double score = 0;
+		
+		for (String line: fr.getLines()) {
+			String[] seg = line.split("::");
+			uid = Integer.parseInt(seg[0]);
+			mid = Integer.parseInt(seg[1]);
+			score = Double.parseDouble(seg[2]);
+			
+			if (!users.containsKey(uid)) {
+				users.put(uid, new User());
+			}
+			User user = users.get(uid);
+			user.insert(mid, score);
+			
+//			TODO: uncomment			
+//			if (!movies.containsKey(mid)) {
+//				movies.put(mid, new Movie());
+//			}
+//			Movie movie = movies.get(mid);
+//			movie.insert(uid, score);
+			count++;
+			if (count % 50000 == 0) {
+				System.out.println("Process... " + count);
 			}
 		}
-		return users;
-	}
-	
-	/**
-	 * 
-	 * @param user
-	 * @return
-	 */
-	public List<Movie> getMoviesByUser(User user) {
-		List<Movie> movies = new ArrayList<>();
-		for (Node n: map.keySet()) {
-			if (n.getUser().equals(user)) {
-				movies.add(n.getMovie());
-			}
-		}
-		return movies;
-	}
-	
-	/**
-	 * 
-	 * @param user
-	 * @param movie
-	 * @return
-	 */
-	public int getRating(User user, Movie movie) {
-		Node n = new Node(user, movie);
-		if (!map.containsKey(n)) {
-			return -1;
-		}
-		else {
-			return map.get(n).toNumber();
-		}
-	}
-	
-	/**
-	 * 
-	 * @param user
-	 * @return
-	 */
-	public double getAvgRatingScoreByUser(User user) {
-		int count = 0;
-		int sum = 0;
-		for (Node n: map.keySet()) {
-			if (n.getUser().equals(user)) {
-				count++;
-				sum += map.get(n).toNumber();
-			}
-		}
-		return 1.0 * sum / count;
-	}
-	
-	/**
-	 * 
-	 * @param movie
-	 * @return
-	 */
-	public double getAvgRatingScoreByMovie(Movie movie) {
-		int count = 0;
-		int sum = 0;
-		for (Node n: map.keySet()) {
-			if (n.getMovie().equals(movie)) {
-				count++;
-				sum += map.get(n).toNumber();
-			}
-		}
-		return 1.0 * sum / count;
-	}
+		System.out.println("users: " + users.size());
+		System.out.println("movies: " + movies.size());
+	} 
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public HashSet<User> getUsers() {
+	public HashMap<Integer, User> getUsers() {
 		return users;
 	}
 	
@@ -121,7 +70,54 @@ public class DataCenter {
 	 * 
 	 * @return
 	 */
-	public HashSet<Movie> getMovies() {
+	public HashMap<Integer, Movie> getMovies() {
 		return movies;
+	}
+
+	
+	/**
+	 * 
+	 * @param movie
+	 * @return
+	 */
+	public Set<Integer> getUsersByMovie(int mid) {
+		return movies.get(mid).getUsers();
+	}
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Set<Integer> getMoviesByUser(int uid) {
+		return users.get(uid).getMovies();
+	}
+	
+	/**
+	 * 
+	 * @param user
+	 * @param movie
+	 * @return
+	 */
+	public double getRating(int uid, int mid) {
+		return users.get(uid).getScore(mid);
+	}
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public double getAvgRatingScoreByUser(int uid) {
+		return users.get(uid).getAvg();
+	}
+	
+	/**
+	 * 
+	 * @param movie
+	 * @return
+	 */
+	public double getAvgRatingScoreByMovie(int mid) {
+		return movies.get(mid).getAvg();
 	}
 }

@@ -13,7 +13,7 @@ public interface Algorithm {
 	 * @param movie
 	 * @return
 	 */
-	public double getRatingByUserAndMovie(User user, Movie movie);
+	public double getRatingByUserAndMovie(int uid, int mid);
 	
 	/**
 	 * 
@@ -21,5 +21,5 @@ public interface Algorithm {
 	 * @param n
 	 * @return
 	 */
-	public List<Movie> getTopNRatingMovies(User user, int n);
+	public Set<Integer> getTopNRatingMovies(int uid, int n);
 }
