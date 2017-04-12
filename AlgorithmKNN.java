@@ -41,8 +41,9 @@ public class AlgorithmKNN implements Algorithm {
 	public Set<Integer> getTopNRatingMovies(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
 		PriorityQueue<MovieContainer> pq = new PriorityQueue<>();
-		
+		int count = 0;
 		for (Integer mid: dc.getMovies().keySet()) {
+			count++;
 			if (dc.getMoviesByUser(uid).contains(mid)) {
 				continue;
 			}
@@ -54,6 +55,10 @@ public class AlgorithmKNN implements Algorithm {
 				pq.poll();
 				pq.offer(mc);
 			}
+//			if (count % 5 == 0) {
+//				System.out.println(" - Process... " + count);
+//			}
+			
 		}
 		
 		while (!pq.isEmpty()) {
