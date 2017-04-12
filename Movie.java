@@ -1,10 +1,10 @@
 
 public class Movie {
 	private int id;
-	private String title;
+//	private String title;
 	
-	public Movie(String title, int id) {
-		this.title = title;
+	public Movie(int id) {
+//		this.title = title;
 		this.id = id;
 	}
 	
@@ -12,9 +12,9 @@ public class Movie {
 		return id;
 	}
 	
-	public String getTitle() {
-		return title;
-	}
+//	public String getTitle() {
+//		return title;
+//	}
 	
 	public boolean equals(Movie m) {
 		return id == m.getId();

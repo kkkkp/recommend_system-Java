@@ -27,7 +27,7 @@ public class AlgorithmKNN implements Algorithm {
 			numerator += s * (dc.getRating(u, movie) - dc.getAvgRatingScoreByUser(u));
 			denominator += Math.abs(s);
 		}
-		return numerator / denominator;
+		return avg + numerator / denominator;
 	}
 
 	@Override

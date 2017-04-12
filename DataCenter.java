@@ -26,6 +26,7 @@ public class DataCenter {
 	 */
 	public void loadData(String filename) {
 		this.fr = new FileReader(filename);
+		System.out.println("Successfully read in: " + fr.getLines().size() + " lines");
 	}
 	
 	/**
