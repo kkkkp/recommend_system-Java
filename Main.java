@@ -31,8 +31,8 @@ public class Main {
 		
 		
 		load(dc, algo, filename);
-//		predict(algo, uid, mid);
-//		topN(algo, uid, n);
+		predict(algo, uid, mid);
+		topN(algo, uid, n);
 		
 	}
 	
@@ -50,8 +50,8 @@ public class Main {
 		long start = System.currentTimeMillis();
 		double rating = algo.getRatingByUserAndMovie(uid, mid);
 		long end = System.currentTimeMillis();
-		System.out.println("done (" + (end - start) + " ms)");
 		System.out.println("Rating [rating = " + rating + "]");
+		System.out.println("done (" + (end - start) + " ms)");
 	}
 	
 	public static void topN(Algorithm algo, int uid, int n) {
@@ -59,7 +59,7 @@ public class Main {
 		long start = System.currentTimeMillis();
 		Set<Integer> predictions = algo.getTopNRatingMovies(uid, n);
 		long end = System.currentTimeMillis();
-		System.out.println("done (" + (end - start) + " ms)");
 		System.out.println("Movies: " + predictions);
+		System.out.println("done (" + (end - start) + " ms)");
 	}
 }

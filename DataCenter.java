@@ -26,36 +26,7 @@ public class DataCenter {
 	 * @param filename
 	 */
 	public void loadData(String filename) {
-		this.fr = new FileReader(filename);
-
-		int count = 0, uid = 0, mid = 0;
-		double score = 0;
-		
-		for (String line: fr.getLines()) {
-			String[] seg = line.split("::");
-			uid = Integer.parseInt(seg[0]);
-			mid = Integer.parseInt(seg[1]);
-			score = Double.parseDouble(seg[2]);
-			
-			if (!users.containsKey(uid)) {
-				users.put(uid, new User());
-			}
-			User user = users.get(uid);
-			user.insert(mid, score);
-			
-//			TODO: uncomment			
-//			if (!movies.containsKey(mid)) {
-//				movies.put(mid, new Movie());
-//			}
-//			Movie movie = movies.get(mid);
-//			movie.insert(uid, score);
-			count++;
-			if (count % 50000 == 0) {
-				System.out.println("Process... " + count);
-			}
-		}
-		System.out.println("users: " + users.size());
-		System.out.println("movies: " + movies.size());
+		this.fr = new FileReader(filename, users, movies);	
 	} 
 	
 	/**

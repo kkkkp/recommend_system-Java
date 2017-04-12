@@ -1,6 +1,5 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * FileReader
@@ -10,41 +9,55 @@ import java.util.Scanner;
 public class FileReader {
 	
 	private String filename;
-	private ArrayList<String> lines;
+
 	
 	/**
 	 * The constructor
 	 * @param file the file to read
 	 */
-	public FileReader(String file) {
+	public FileReader(String file, HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
 		this.filename = file;
-		this.lines = new ArrayList<String>();
-		readFile();
+		readFile(users, movies);
 	}
 	
 	/**
-	 * This will read in the entire file.
-	 * It will store the contents in the lines ArrayList.
+	 * 
+	 * @param users
 	 */
-	private void readFile() {
+	private void readFile(HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
 		try {
 			File inputFile = new File(filename);
 			Scanner in = new Scanner(inputFile);
+			int count = 0, uid = 0, mid = 0;
+			double score = 0;
+			
 			while (in.hasNextLine()) {
 				String line = in.nextLine();
-				lines.add(line);
+				String[] seg = line.split("::");
+				uid = Integer.parseInt(seg[0]);
+				mid = Integer.parseInt(seg[1]);
+				score = Double.parseDouble(seg[2]);
+				
+				if (!users.containsKey(uid)) {
+					users.put(uid, new User());
+				}
+				if (!movies.containsKey(mid)) {
+					movies.put(mid, new Movie());
+				}
+				User user = users.get(uid);
+				Movie movie = movies.get(mid);
+				user.insert(mid, score);
+				movie.insert(uid, score);
+				count++;
+//				if (count % 100000 == 0) {
+//					System.out.println("Process... " + count);
+//				}
 			}
 			in.close();
+			System.out.println(" - lines: " + count);
+			System.out.println(" - users: " + users.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * The accessor method for lines
-	 * @return the lines arraylist
-	 */
-	public ArrayList<String> getLines() {
-		return lines;
 	}
 }
