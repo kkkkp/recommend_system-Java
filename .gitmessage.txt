@@ -1,5 +1,0 @@
-Finish AlgorithmKNN class
-
- - Main has not been implemented
-
-[ticket: patrick_pu]
