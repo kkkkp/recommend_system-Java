@@ -154,10 +154,13 @@ public class Algorithm2A implements Algorithm {
 		}
 		
 		double rst = 0;
-		for (Integer id: dc.get)
+		for (Integer id: dc.getItemsByUser(uid1)) {
+			if (dc.getItemsByUser(uid2).contains(id)) {
+				rst += dc.getRating(uid1, id) * dc.getRating(uid2, id);
+			}
+		}
 		
 		similarities.put(tuple, rst);
-		
 		return rst;
 	}
 }
