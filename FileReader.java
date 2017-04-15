@@ -14,17 +14,17 @@ public class FileReader {
 	 * The constructor
 	 * @param file the file to read
 	 */
-	public FileReader(String file, HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
+	public FileReader(String file, HashMap<Integer, User> users, HashMap<Integer, Item> items) {
 		this.filename = file;
-		readFile(users, movies);
+		readFile(users, items);
 	}
 	
 	/**
-	 * Read file line by line. Load data into hashmap, User, and Movie wrappers.
+	 * Read file line by line. Load data into hashmap, User, and item wrappers.
 	 * @param users container of users.
-	 * @param movies container of movies.
+	 * @param items container of items.
 	 */
-	private void readFile(HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
+	private void readFile(HashMap<Integer, User> users, HashMap<Integer, Item> items) {
 		try {
 			File inputFile = new File(filename);
 			Scanner in = new Scanner(inputFile);
@@ -41,14 +41,14 @@ public class FileReader {
 				if (!users.containsKey(uid)) {
 					users.put(uid, new User());
 				}
-				if (!movies.containsKey(mid)) {
-					movies.put(mid, new Movie());
+				if (!items.containsKey(mid)) {
+					items.put(mid, new Item());
 				}
 				
 				User user = users.get(uid);
-				Movie movie = movies.get(mid);
+				Item item = items.get(mid);
 				user.insert(mid, score);
-				movie.insert(uid, score);
+				item.insert(uid, score);
 				count++;
 			}
 			

@@ -17,7 +17,7 @@ public class AlgorithmKNN implements Algorithm {
 	}
 
 	@Override
-	public double getRatingByUserAndMovie(int uid, int mid) {
+	public double getRatingByUserAndItem(int uid, int mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
 		
 		double avg = dc.getAvgRatingScoreByUser(uid);
@@ -36,19 +36,19 @@ public class AlgorithmKNN implements Algorithm {
 	}
 
 	@Override
-	public Set<Integer> getTopNRatingMovies(int uid, int n) {
+	public Set<Integer> getTopNRatingItems(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
-		PriorityQueue<MovieContainer> pq = new PriorityQueue<>();
+		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
 		
-		for (Integer mid: dc.getMovies().keySet()) {
+		for (Integer mid: dc.getItems().keySet()) {
 			count++;
-			if (dc.getMoviesByUser(uid).contains(mid)) {
+			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
 			}
-			MovieContainer mc = new MovieContainer(mid, getRatingByUserAndMovie(uid, mid));
+			ItemContainer mc = new ItemContainer(mid, getRatingByUserAndItem(uid, mid));
 			if (pq.size() < n) {
 				pq.offer(mc);
 			}
@@ -81,7 +81,7 @@ public class AlgorithmKNN implements Algorithm {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 		
-		for (Integer n: dc.getUsersByMovie(mid)) {
+		for (Integer n: dc.getUsersByItem(mid)) {
 			if (uid == n) {
 				continue;
 			}
@@ -121,7 +121,7 @@ public class AlgorithmKNN implements Algorithm {
 			return similarities.get(tuple);
 		}
 		
-		Set<Integer> commons = getCommonMovies(uid1, uid2);
+		Set<Integer> commons = getCommonItems(uid1, uid2);
 		double numerator = 0, denominator1 = 0, denominator2 = 0, score1 = 0, score2 = 0, rst = 0;
 		double avg1 = dc.getAvgRatingScoreByUser(uid1);
 		double avg2 = dc.getAvgRatingScoreByUser(uid2);
@@ -151,9 +151,9 @@ public class AlgorithmKNN implements Algorithm {
 	 * @param uid2 id of second user
 	 * @return common movies of both users.
 	 */
-	private Set<Integer> getCommonMovies(int uid1, int uid2) {
-		Set<Integer> rst = new HashSet<>(dc.getMoviesByUser(uid1));
-		Set<Integer> compare = dc.getMoviesByUser(uid2);
+	private Set<Integer> getCommonItems(int uid1, int uid2) {
+		Set<Integer> rst = new HashSet<>(dc.getItemsByUser(uid1));
+		Set<Integer> compare = dc.getItemsByUser(uid2);
 		rst.retainAll(compare);
 		return rst;
 	}
