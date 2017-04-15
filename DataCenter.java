@@ -6,13 +6,9 @@ import java.util.*;
  *
  */
 public class DataCenter {
-<<<<<<< HEAD
 	/**
 	 * 
 	 */
-	
-=======
->>>>>>> xpu2
 	private HashMap<Integer, User> users;
 	private HashMap<Integer, Movie> movies;
 	private FileReader fr;

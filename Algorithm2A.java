@@ -154,6 +154,7 @@ public class Algorithm2A implements Algorithm {
 		}
 		
 		double rst = 0;
+		for ()
 		
 		similarities.put(tuple, rst);
 		
