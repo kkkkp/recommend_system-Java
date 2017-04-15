@@ -3,30 +3,19 @@
  * @author Patrick_Pu
  *
  */
-public class MovieContainer implements Comparable<MovieContainer> {
+public class ItemContainer implements Comparable<ItemContainer> {
 	private int mid;
 	private double predict;
 
-<<<<<<< HEAD
-=======
-	/**
-	 * Assign mid and predicted rating to instance variables.
-	 * @param mid movie id
-	 * @param predict predicted rating
-	 */
->>>>>>> xpu2
-	public MovieContainer(int mid, double predict) {
+	public ItemContainer(int mid, double predict) {
 		this.mid = mid;
 		this.predict = predict;
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * Getter for id.
-	 * @return movie id.
+	 * @return item id.
 	 */
->>>>>>> xpu2
 	public int getId() {
 		return mid;
 	}
@@ -40,7 +29,7 @@ public class MovieContainer implements Comparable<MovieContainer> {
 	}
 
 	@Override
-	public int compareTo(MovieContainer o) {
+	public int compareTo(ItemContainer o) {
 		return Double.compare(this.predict, o.getPredict());
 	}
 }

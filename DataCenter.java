@@ -10,7 +10,7 @@ public class DataCenter {
 	 * 
 	 */
 	private HashMap<Integer, User> users;
-	private HashMap<Integer, Movie> movies;
+	private HashMap<Integer, Item> items;
 	private FileReader fr;
 	
 	/**
@@ -18,7 +18,7 @@ public class DataCenter {
 	 */
 	public DataCenter() {
 		this.users = new HashMap<>();
-		this.movies = new HashMap<>();
+		this.items = new HashMap<>();
 	}
 	
 	/**
@@ -26,104 +26,69 @@ public class DataCenter {
 	 * @param filename name of file to read.
 	 */
 	public void loadData(String filename) {
-		this.fr = new FileReader(filename, users, movies);	
+		this.fr = new FileReader(filename, users, items);	
 	} 
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @return
-=======
 	 * Getter for users.
 	 * @return all users
->>>>>>> xpu2
 	 */
 	public HashMap<Integer, User> getUsers() {
 		return users;
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @return
-=======
-	 * Get all movies.
-	 * @return all movies.
->>>>>>> xpu2
+	 * Get all items.
+	 * @return all items.
 	 */
-	public HashMap<Integer, Movie> getMovies() {
-		return movies;
+	public HashMap<Integer, Item> getItems() {
+		return items;
 	}
 
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param movie
-	 * @return
-=======
-	 * Get the users who have rated the movie.
-	 * @param movie movie that users have all rated.
+	 * Get the users who have rated the item.
+	 * @param item item that users have all rated.
 	 * @return a set of user ids.
->>>>>>> xpu2
 	 */
-	public Set<Integer> getUsersByMovie(int mid) {
-		return movies.get(mid).getUsers();
+	public Set<Integer> getUsersByItem(int mid) {
+		return items.get(mid).getUsers();
 	}
 	
 	/**
-	 * Get the movies that a user have rated.
+	 * Get the items that a user have rated.
 	 * @param user
-	 * @return all movies that user have rated.
+	 * @return all items that user have rated.
 	 */
-	public Set<Integer> getMoviesByUser(int uid) {
-		return users.get(uid).getMovies();
+	public Set<Integer> getItemsByUser(int uid) {
+		return users.get(uid).getItems();
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param user
-	 * @param movie
-	 * @return
-=======
-	 * Get a user rating on a movie.
+	 * Get a user rating on a item.
 	 * @param uid user
-	 * @param mid movie
-	 * @return user's rating on movie.
->>>>>>> xpu2
+	 * @param mid item
+	 * @return user's rating on item.
 	 */
 	public double getRating(int uid, int mid) {
 		return users.get(uid).getScore(mid);
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param user
-	 * @return
-=======
 	 * Get the average rating of a user.
 	 * @param uid user id
 	 * @return average rating of user.
->>>>>>> xpu2
 	 */
 	public double getAvgRatingScoreByUser(int uid) {
 		return users.get(uid).getAvg();
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param movie
-	 * @return
-=======
-	 * Calculate average rating of a movie.
-	 * @param mid movie id
-	 * @return average rating of movie.
->>>>>>> xpu2
+	 * Calculate average rating of a item.
+	 * @param mid item id
+	 * @return average rating of item.
 	 */
-	public double getAvgRatingScoreByMovie(int mid) {
-		return movies.get(mid).getAvg();
+	public double getAvgRatingScoreByItem(int mid) {
+		return items.get(mid).getAvg();
 	}
 }

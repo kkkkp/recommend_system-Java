@@ -11,11 +11,7 @@ public class User {
 	private double avg;
 	
 	/**
-<<<<<<< HEAD
-	 * 
-=======
 	 * Initialize instance variables.
->>>>>>> xpu2
 	 */
 	public User() {
 		this.ratings = new HashMap<>();
@@ -23,28 +19,16 @@ public class User {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param mid
-	 * @param score
-=======
-	 * Put data into hashmap.
-	 * @param mid movie
-	 * @param score rating on the movie.
->>>>>>> xpu2
+	 * @param mid item
+	 * @param score rating on the item.
 	 */
 	public void insert(int mid, double score) {
 		ratings.put(mid, score);
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @return
-=======
 	 * Get a user's average rating for all items.
 	 * @return user's average rating for all items.
->>>>>>> xpu2
 	 */
 	public double getAvg() {
 		if (avg == -1) {
@@ -58,30 +42,19 @@ public class User {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param mid
-	 * @return
-=======
-	 * Get this user's rating on a movie.
-	 * @param mid movie
-	 * @return this user's rating on the movie.
->>>>>>> xpu2
+	 * Get this user's rating on a item.
+	 * @param mid item
+	 * @return this user's rating on the item.
 	 */
 	public double getScore(int mid) {
 		return ratings.get(mid);
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @return
-=======
-	 * Get all movies rated by this user.
-	 * @return all movies rated by this user.
->>>>>>> xpu2
+	 * Get all items rated by this user.
+	 * @return all items rated by this user.
 	 */
-	public Set<Integer> getMovies() {
+	public Set<Integer> getItems() {
 		return ratings.keySet();
 	}
 }

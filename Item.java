@@ -1,44 +1,35 @@
 import java.util.*;
 
 /**
- * Wrapper class for a movie.
+ * Wrapper class for a item.
  * @author Han Zhu
  *
  */
-public class Movie {
+public class Item {
 	private HashMap<Integer, Double> ratings;
 	private double avg;
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Initialize instance variables.
 	 */
->>>>>>> xpu2
-	public Movie() {
+	public Item() {
 		this.ratings = new HashMap<>();
 		this.avg = -1;
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Put data into hashmap.
-	 * @param uid user who rated this movie
+	 * @param uid user who rated this item
 	 * @param score rating
 	 */
->>>>>>> xpu2
 	public void insert(int uid, double score) {
 		ratings.put(uid, score);
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
-	 * Calcuate average rating of this movie.
-	 * @return average rating of this movie.
+	 * Calcuate average rating of this item.
+	 * @return average rating of this item.
 	 */
->>>>>>> xpu2
 	public double getAvg() {
 		if (avg == -1) {
 			double sum = 0;
@@ -49,26 +40,20 @@ public class Movie {
 		}
 		return avg;
 	}
-	
-<<<<<<< HEAD
-=======
+
 	/**
-	 * Get a user's rating on this movie.
+	 * Get a user's rating on this item.
 	 * @param uid user
-	 * @return rating on this movie.
+	 * @return rating on this item.
 	 */
->>>>>>> xpu2
 	public double getScore(int uid) {
 		return ratings.get(uid);
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
-	 * Get all users who rated this movie.
-	 * @return all users who rated this movie.
+	 * Get all users who rated this item.
+	 * @return all users who rated this item.
 	 */
->>>>>>> xpu2
 	public Set<Integer> getUsers() {
 		return ratings.keySet();
 	}

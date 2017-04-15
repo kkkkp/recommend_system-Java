@@ -7,14 +7,12 @@ public class UserContainer implements Comparable<UserContainer>{
 	private int uid;
 	private double similarity;
 
-<<<<<<< HEAD
-=======
+
 	/**
 	 * Assign user id and similarity to instance variables.
 	 * @param uid user id
 	 * @param similarity similarity calculated in AlgorithmKNN
 	 */
->>>>>>> xpu2
 	public UserContainer(int uid, double similarity) {
 		this.uid = uid;
 		this.similarity = similarity;
@@ -28,13 +26,12 @@ public class UserContainer implements Comparable<UserContainer>{
 		return similarity;
 	}
 
-<<<<<<< HEAD
-=======
+
 	/**
 	 * Getter for user id.
 	 * @return user id
 	 */
->>>>>>> xpu2
+
 	public int getId() {
 		return uid;
 	}

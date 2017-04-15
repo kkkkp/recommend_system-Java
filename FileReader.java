@@ -10,20 +10,17 @@ public class FileReader {
 	
 	private String filename;
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> xpu2
 	/**
 	 * The constructor
 	 * @param file the file to read
 	 */
-	public FileReader(String file, HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
+	public FileReader(String file, HashMap<Integer, User> users, HashMap<Integer, Item> items) {
 		this.filename = file;
-		readFile(users, movies);
+		readFile(users, items);
 	}
 	
 	/**
+<<<<<<< HEAD
 <<<<<<< HEAD
 	 * 
 	 * @param users
@@ -32,8 +29,13 @@ public class FileReader {
 	 * @param users container of users.
 	 * @param movies container of movies.
 >>>>>>> xpu2
+=======
+	 * Read file line by line. Load data into hashmap, User, and item wrappers.
+	 * @param users container of users.
+	 * @param items container of items.
+>>>>>>> zhuhan
 	 */
-	private void readFile(HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
+	private void readFile(HashMap<Integer, User> users, HashMap<Integer, Item> items) {
 		try {
 			File inputFile = new File(filename);
 			Scanner in = new Scanner(inputFile);
@@ -50,24 +52,16 @@ public class FileReader {
 				if (!users.containsKey(uid)) {
 					users.put(uid, new User());
 				}
-				if (!movies.containsKey(mid)) {
-					movies.put(mid, new Movie());
+				if (!items.containsKey(mid)) {
+					items.put(mid, new Item());
 				}
-<<<<<<< HEAD
-=======
-				
->>>>>>> xpu2
+
 				User user = users.get(uid);
-				Movie movie = movies.get(mid);
+				Item item = items.get(mid);
 				user.insert(mid, score);
-				movie.insert(uid, score);
+				item.insert(uid, score);
 				count++;
-<<<<<<< HEAD
-//				if (count % 100000 == 0) {
-//					System.out.println("Process... " + count);
-//				}
-=======
->>>>>>> xpu2
+
 			}
 			
 			in.close();

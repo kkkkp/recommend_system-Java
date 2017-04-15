@@ -18,7 +18,7 @@ public class Algorithm2A implements Algorithm {
 	}
 
 	@Override
-	public double getRatingByUserAndMovie(int uid, int mid) {
+	public double getRatingByUserAndItem(int uid, int mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
 		
 		double avg = dc.getAvgRatingScoreByUser(uid);
@@ -37,19 +37,22 @@ public class Algorithm2A implements Algorithm {
 	}
 
 	@Override
-	public Set<Integer> getTopNRatingMovies(int uid, int n) {
+
+	public Set<Integer> getTopNRatingItems(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
-		PriorityQueue<MovieContainer> pq = new PriorityQueue<>();
+		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
+
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
 		
-		for (Integer mid: dc.getMovies().keySet()) {
+
+		for (Integer mid: dc.getItems().keySet()) {
 			count++;
-			if (dc.getMoviesByUser(uid).contains(mid)) {
+			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
 			}
-			MovieContainer mc = new MovieContainer(mid, getRatingByUserAndMovie(uid, mid));
+			ItemContainer mc = new ItemContainer(mid, getRatingByUserAndItem(uid, mid));
 			if (pq.size() < n) {
 				pq.offer(mc);
 			}
@@ -82,7 +85,8 @@ public class Algorithm2A implements Algorithm {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 		
-		for (Integer n: dc.getUsersByMovie(mid)) {
+
+		for (Integer n: dc.getUsersByItem(mid)) {
 			if (uid == n) {
 				continue;
 			}
@@ -154,10 +158,16 @@ public class Algorithm2A implements Algorithm {
 		}
 		
 		double rst = 0;
-		for ()
 		
 		similarities.put(tuple, rst);
+
+		for (Integer id: dc.getItemsByUser(uid1)) {
+			if (dc.getItemsByUser(uid2).contains(id)) {
+				rst += dc.getRating(uid1, id) * dc.getRating(uid2, id);
+			}
+		}
 		
+		similarities.put(tuple, rst);
 		return rst;
 	}
 }

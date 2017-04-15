@@ -9,10 +9,7 @@ public class AlgorithmKNN implements Algorithm {
 	private DataCenter dc;
 	private int SIZE = 20;
 	private HashMap<int[], Double> similarities;
-<<<<<<< HEAD
-	
-=======
->>>>>>> xpu2
+
 	
 	@Override
 	public void loadDataCenter(DataCenter dc) {
@@ -22,7 +19,7 @@ public class AlgorithmKNN implements Algorithm {
 
 	
 	@Override
-	public double getRatingByUserAndMovie(int uid, int mid) {
+	public double getRatingByUserAndItem(int uid, int mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
 		
 		double avg = dc.getAvgRatingScoreByUser(uid);
@@ -33,34 +30,28 @@ public class AlgorithmKNN implements Algorithm {
 			numerator += s * (dc.getRating(u, mid) - dc.getAvgRatingScoreByUser(u));
 			denominator += Math.abs(s);
 		}
-<<<<<<< HEAD
-=======
 				
 		if (denominator == 0) {
 			return avg;
 		}
->>>>>>> xpu2
 		return avg + (numerator / denominator);
 	}
 
 	
 	@Override
-	public Set<Integer> getTopNRatingMovies(int uid, int n) {
+	public Set<Integer> getTopNRatingItems(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
-		PriorityQueue<MovieContainer> pq = new PriorityQueue<>();
+		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
-<<<<<<< HEAD
-=======
-		
->>>>>>> xpu2
-		for (Integer mid: dc.getMovies().keySet()) {
+
+		for (Integer mid: dc.getItems().keySet()) {
 			count++;
-			if (dc.getMoviesByUser(uid).contains(mid)) {
+			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
 			}
-			MovieContainer mc = new MovieContainer(mid, getRatingByUserAndMovie(uid, mid));
+			ItemContainer mc = new ItemContainer(mid, getRatingByUserAndItem(uid, mid));
 			if (pq.size() < n) {
 				pq.offer(mc);
 			}
@@ -69,10 +60,7 @@ public class AlgorithmKNN implements Algorithm {
 				pq.offer(mc);
 			}
 			end = System.currentTimeMillis();
-<<<<<<< HEAD
-=======
-			
->>>>>>> xpu2
+
 			if (end - start > 10000) {
 				System.out.println(" - Heartbeating " + (end -  start) + " @" + count);
 				start = end;
@@ -89,33 +77,21 @@ public class AlgorithmKNN implements Algorithm {
 
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param user
-	 * @return
-=======
 	 * Get a user's neighbors - users who have rated the movie.
 	 * @param uid user to predict
 	 * @param mid movie to predict
 	 * @return a set of user ids.
->>>>>>> xpu2
 	 */
 	private Set<Integer> getNeighbors(int uid, int mid) {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 		
-<<<<<<< HEAD
-		for (Integer n: dc.getUsers().keySet()) {
-			if (uid == n || !dc.getMoviesByUser(n).contains(mid)) {
-				continue;
-			}
-=======
-		for (Integer n: dc.getUsersByMovie(mid)) {
+
+		for (Integer n: dc.getUsersByItem(mid)) {
 			if (uid == n) {
 				continue;
 			}
 			
->>>>>>> xpu2
 			UserContainer uc = new UserContainer(n, getSimilarity(uid, n));
 			if (pq.size() < SIZE) {
 				pq.offer(uc);
@@ -124,37 +100,20 @@ public class AlgorithmKNN implements Algorithm {
 				pq.poll();
 				pq.offer(uc);
 			}
-<<<<<<< HEAD
-		}
-		
-		while (!pq.isEmpty()) {
-			neighbors.add(pq.poll().getId());
-			
-		}
-		
-=======
 		}
 		
 		while (!pq.isEmpty()) {
 			neighbors.add(pq.poll().getId());	
 		}
 		
->>>>>>> xpu2
 		return neighbors;
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param u1
-	 * @param u2
-	 * @return
-=======
 	 * Calculate the similarity between two users.
 	 * @param uid1 id of first user
 	 * @param uid2 id of second user
 	 * @return similarity between users.
->>>>>>> xpu2
 	 */
 	private double getSimilarity(int uid1, int uid2) {
 		if (uid1 > uid2) {
@@ -168,7 +127,7 @@ public class AlgorithmKNN implements Algorithm {
 			return similarities.get(tuple);
 		}
 		
-		Set<Integer> commons = getCommonMovies(uid1, uid2);
+		Set<Integer> commons = getCommonItems(uid1, uid2);
 		double numerator = 0, denominator1 = 0, denominator2 = 0, score1 = 0, score2 = 0, rst = 0;
 		double avg1 = dc.getAvgRatingScoreByUser(uid1);
 		double avg2 = dc.getAvgRatingScoreByUser(uid2);
@@ -181,11 +140,8 @@ public class AlgorithmKNN implements Algorithm {
 			denominator2 += Math.pow(score2, 2);
 		}
 		
-<<<<<<< HEAD
-		if (denominator1 <= 0.00001 && denominator2 <= 0.00001) {
-=======
+
 		if (denominator1 <= 0.00001 || denominator2 <= 0.00001) {
->>>>>>> xpu2
 			rst = 0;
 		}
 		else {
@@ -202,9 +158,9 @@ public class AlgorithmKNN implements Algorithm {
 	 * @param uid2 id of second user
 	 * @return common movies of both users.
 	 */
-	private Set<Integer> getCommonMovies(int uid1, int uid2) {
-		Set<Integer> rst = new HashSet<>(dc.getMoviesByUser(uid1));
-		Set<Integer> compare = dc.getMoviesByUser(uid2);
+	private Set<Integer> getCommonItems(int uid1, int uid2) {
+		Set<Integer> rst = new HashSet<>(dc.getItemsByUser(uid1));
+		Set<Integer> compare = dc.getItemsByUser(uid2);
 		rst.retainAll(compare);
 		return rst;
 	}
