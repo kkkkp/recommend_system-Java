@@ -10,7 +10,10 @@ public class FileReader {
 	
 	private String filename;
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> xpu2
 	/**
 	 * The constructor
 	 * @param file the file to read
@@ -21,8 +24,14 @@ public class FileReader {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * 
 	 * @param users
+=======
+	 * Read file line by line. Load data into hashmap, User, and Movie wrappers.
+	 * @param users container of users.
+	 * @param movies container of movies.
+>>>>>>> xpu2
 	 */
 	private void readFile(HashMap<Integer, User> users, HashMap<Integer, Movie> movies) {
 		try {
@@ -44,15 +53,23 @@ public class FileReader {
 				if (!movies.containsKey(mid)) {
 					movies.put(mid, new Movie());
 				}
+<<<<<<< HEAD
+=======
+				
+>>>>>>> xpu2
 				User user = users.get(uid);
 				Movie movie = movies.get(mid);
 				user.insert(mid, score);
 				movie.insert(uid, score);
 				count++;
+<<<<<<< HEAD
 //				if (count % 100000 == 0) {
 //					System.out.println("Process... " + count);
 //				}
+=======
+>>>>>>> xpu2
 			}
+			
 			in.close();
 			System.out.println(" - lines: " + count);
 			System.out.println(" - users: " + users.size());

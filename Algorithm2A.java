@@ -5,14 +5,11 @@ import java.util.*;
  * @author Patrick_Pu
  *
  */
-public class AlgorithmKNN implements Algorithm {
+public class Algorithm2A implements Algorithm {
 	private DataCenter dc;
 	private int SIZE = 20;
 	private HashMap<int[], Double> similarities;
-<<<<<<< HEAD
-	
-=======
->>>>>>> xpu2
+	private HashMap<int[], Double> ratingVectorSum;
 	
 	@Override
 	public void loadDataCenter(DataCenter dc) {
@@ -20,7 +17,6 @@ public class AlgorithmKNN implements Algorithm {
 		this.similarities = new HashMap<>();
 	}
 
-	
 	@Override
 	public double getRatingByUserAndMovie(int uid, int mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
@@ -33,17 +29,13 @@ public class AlgorithmKNN implements Algorithm {
 			numerator += s * (dc.getRating(u, mid) - dc.getAvgRatingScoreByUser(u));
 			denominator += Math.abs(s);
 		}
-<<<<<<< HEAD
-=======
 				
 		if (denominator == 0) {
 			return avg;
 		}
->>>>>>> xpu2
 		return avg + (numerator / denominator);
 	}
 
-	
 	@Override
 	public Set<Integer> getTopNRatingMovies(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
@@ -51,10 +43,7 @@ public class AlgorithmKNN implements Algorithm {
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
-<<<<<<< HEAD
-=======
 		
->>>>>>> xpu2
 		for (Integer mid: dc.getMovies().keySet()) {
 			count++;
 			if (dc.getMoviesByUser(uid).contains(mid)) {
@@ -69,10 +58,7 @@ public class AlgorithmKNN implements Algorithm {
 				pq.offer(mc);
 			}
 			end = System.currentTimeMillis();
-<<<<<<< HEAD
-=======
 			
->>>>>>> xpu2
 			if (end - start > 10000) {
 				System.out.println(" - Heartbeating " + (end -  start) + " @" + count);
 				start = end;
@@ -86,36 +72,21 @@ public class AlgorithmKNN implements Algorithm {
 		return movies;
 	}
 	
-
-	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param user
-	 * @return
-=======
 	 * Get a user's neighbors - users who have rated the movie.
 	 * @param uid user to predict
 	 * @param mid movie to predict
 	 * @return a set of user ids.
->>>>>>> xpu2
 	 */
 	private Set<Integer> getNeighbors(int uid, int mid) {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 		
-<<<<<<< HEAD
-		for (Integer n: dc.getUsers().keySet()) {
-			if (uid == n || !dc.getMoviesByUser(n).contains(mid)) {
-				continue;
-			}
-=======
 		for (Integer n: dc.getUsersByMovie(mid)) {
 			if (uid == n) {
 				continue;
 			}
 			
->>>>>>> xpu2
 			UserContainer uc = new UserContainer(n, getSimilarity(uid, n));
 			if (pq.size() < SIZE) {
 				pq.offer(uc);
@@ -124,37 +95,20 @@ public class AlgorithmKNN implements Algorithm {
 				pq.poll();
 				pq.offer(uc);
 			}
-<<<<<<< HEAD
-		}
-		
-		while (!pq.isEmpty()) {
-			neighbors.add(pq.poll().getId());
-			
-		}
-		
-=======
 		}
 		
 		while (!pq.isEmpty()) {
 			neighbors.add(pq.poll().getId());	
 		}
 		
->>>>>>> xpu2
 		return neighbors;
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param u1
-	 * @param u2
-	 * @return
-=======
 	 * Calculate the similarity between two users.
 	 * @param uid1 id of first user
 	 * @param uid2 id of second user
 	 * @return similarity between users.
->>>>>>> xpu2
 	 */
 	private double getSimilarity(int uid1, int uid2) {
 		if (uid1 > uid2) {
@@ -164,48 +118,45 @@ public class AlgorithmKNN implements Algorithm {
 		}
 		
 		int[] tuple = new int[] {uid1, uid2};
+		
 		if (similarities.containsKey(tuple)) {
 			return similarities.get(tuple);
 		}
 		
-		Set<Integer> commons = getCommonMovies(uid1, uid2);
-		double numerator = 0, denominator1 = 0, denominator2 = 0, score1 = 0, score2 = 0, rst = 0;
-		double avg1 = dc.getAvgRatingScoreByUser(uid1);
-		double avg2 = dc.getAvgRatingScoreByUser(uid2);
+		double numerator = getVectorProduct(uid1, uid2);
+		double denominator1 = getVectorProduct(uid1, uid1);
+		double denominator2 = getVectorProduct(uid2, uid2);
+		double rst = 0;
 		
-		for (Integer m: commons) {
-			score1 = dc.getRating(uid1, m) - avg1;
-			score2 = dc.getRating(uid2, m) - avg2;
-			numerator += score1 * score2;
-			denominator1 += Math.pow(score1, 2);
-			denominator2 += Math.pow(score2, 2);
-		}
-		
-<<<<<<< HEAD
-		if (denominator1 <= 0.00001 && denominator2 <= 0.00001) {
-=======
 		if (denominator1 <= 0.00001 || denominator2 <= 0.00001) {
->>>>>>> xpu2
 			rst = 0;
 		}
 		else {
 			rst = numerator / (Math.sqrt(denominator1) * Math.sqrt(denominator2));
 		}
+		
 		similarities.put(tuple, rst);
 		
 		return rst;
 	}
+
 	
-	/**
-	 * Find the movies that are rated by both users.
-	 * @param uid1 id of first user
-	 * @param uid2 id of second user
-	 * @return common movies of both users.
-	 */
-	private Set<Integer> getCommonMovies(int uid1, int uid2) {
-		Set<Integer> rst = new HashSet<>(dc.getMoviesByUser(uid1));
-		Set<Integer> compare = dc.getMoviesByUser(uid2);
-		rst.retainAll(compare);
+	private double getVectorProduct(int uid1, int uid2) {
+		if (uid1 > uid2) {
+			int temp = uid2;
+			uid2 = uid1;
+			uid1 = temp;
+		}
+		
+		int[] tuple = new int[] {uid1, uid2};
+		if (similarities.containsKey(tuple)) {
+			return ratingVectorSum.get(tuple);
+		}
+		
+		double rst = 0;
+		
+		similarities.put(tuple, rst);
+		
 		return rst;
 	}
 }
