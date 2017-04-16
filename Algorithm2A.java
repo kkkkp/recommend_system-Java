@@ -40,16 +40,19 @@ public class Algorithm2A implements Algorithm {
 	public Set<Integer> getTopNRatingItems(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
 		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
+
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
 		
+
 		for (Integer mid: dc.getItems().keySet()) {
 			count++;
 			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
 			}
 			ItemContainer mc = new ItemContainer(mid, getRatingByUserAndItem(uid, mid));
+
 			if (pq.size() < n) {
 				pq.offer(mc);
 			}
@@ -154,13 +157,11 @@ public class Algorithm2A implements Algorithm {
 		}
 		
 		double rst = 0;
-		for (Integer id: dc.getItemsByUser(uid1)) {
-			if (dc.getItemsByUser(uid2).contains(id)) {
-				rst += dc.getRating(uid1, id) * dc.getRating(uid2, id);
-			}
-		}
+
 		
 		similarities.put(tuple, rst);
+		
+
 		return rst;
 	}
 }
