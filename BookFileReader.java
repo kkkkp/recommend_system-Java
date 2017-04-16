@@ -2,6 +2,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * File reader for book ratings.
+ * @author Han Zhu
+ *
+ */
 public class BookFileReader implements FileReader {
 	private String filename;
 

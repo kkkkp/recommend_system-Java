@@ -2,6 +2,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * File reader for new movie data
+ * @author Han Zhu
+ *
+ */
 public class NewMovieFileReader implements FileReader {
 	private String filename;
 
@@ -13,6 +18,7 @@ public class NewMovieFileReader implements FileReader {
 		this.filename = file;
 		readFile(users, items);
 	}
+	
 	@Override
 	public void readFile(HashMap<Integer, User> users, HashMap<String, Item> items) {
 		try {

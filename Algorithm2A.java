@@ -9,7 +9,6 @@ public class Algorithm2A implements Algorithm {
 	private DataCenter dc;
 	private int SIZE = 20;
 	private HashMap<int[], Double> similarities;
-	private HashMap<int[], Double> ratingVectorSum;
 	
 	@Override
 	public void loadDataCenter(DataCenter dc) {
@@ -133,8 +132,7 @@ public class Algorithm2A implements Algorithm {
 		
 		if (denominator1 <= 0.00001 || denominator2 <= 0.00001) {
 			rst = 0;
-		}
-		else {
+		} else {
 			rst = numerator / (Math.sqrt(denominator1) * Math.sqrt(denominator2));
 		}
 		
@@ -143,22 +141,20 @@ public class Algorithm2A implements Algorithm {
 		return rst;
 	}
 
-	
+	/**
+	 * Calculate the vector product of two users.
+	 * @param uid1 user 1
+	 * @param uid2 user 2
+	 * @return vector product
+	 */
 	private double getVectorProduct(int uid1, int uid2) {
-		if (uid1 > uid2) {
-			int temp = uid2;
-			uid2 = uid1;
-			uid1 = temp;
-		}
-		
-		int[] tuple = new int[] {uid1, uid2};
-		if (similarities.containsKey(tuple)) {
-			return ratingVectorSum.get(tuple);
-		}
-		
 		double rst = 0;
-
-		similarities.put(tuple, rst);
+		
+		for(String mid: dc.getItemsByUser(uid1)) {
+			if (dc.getItemsByUser(uid2).contains(mid)) {
+				rst += dc.getRating(uid1, mid) * dc.getRating(uid2, mid);
+			}
+		}
 
 		return rst;
 	}

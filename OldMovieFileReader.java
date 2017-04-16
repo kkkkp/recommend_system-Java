@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- * FileReader
+ * File reader for old movie data
  * @author Patrick_Pu
  *
  */
@@ -19,11 +19,7 @@ public class OldMovieFileReader implements FileReader {
 		readFile(users, items);
 	}
 	
-	/**
-	 * Read file line by line. Load data into hashmap, User, and item wrappers.
-	 * @param users container of users.
-	 * @param items container of items.
-	 */
+	@Override
 	public void readFile(HashMap<Integer, User> users, HashMap<String, Item> items) {
 		try {
 			File inputFile = new File(filename);

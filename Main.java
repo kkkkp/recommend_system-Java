@@ -72,7 +72,6 @@ public class Main {
 		System.out.println("done (" + (end - start) + " ms)");
 		algo.loadDataCenter(dc);
 	}
-	
 
 	/**
 	 * Predict a user's rating on a item and display elapsed time.
@@ -89,7 +88,6 @@ public class Main {
 		System.out.println("done (" + (end - start) + " ms)");
 	}
 	
-
 	/**
 	 * Predict a user's top n highest-rated items.
 	 * @param algo prediction algorithm to use
@@ -106,11 +104,12 @@ public class Main {
 	}
 	
 	/**
-	 * 
-	 * @param dc
-	 * @param filename
+	 * For a sample of users (100 total), for every item that the user has rated, run every algorithm to predict the rating, and compare result with the ground
+	 * truth. 
+	 * @param dc the same data center object used in actual prediction
 	 */
 	public static void experiment(DataCenter dc) {
+		System.out.println("\nExperiment...");
 		Algorithm knnPearson = new AlgorithmKNN();
 		Algorithm knnCosine = new Algorithm2A();
 		Algorithm baseline = new Algorithm2B();
@@ -127,14 +126,15 @@ public class Main {
 	}
 	
 	/**
-	 * 
-	 * @param algo
-	 * @param dc
-	 * @return
+	 * Run the test for one algorithm.
+	 * @param algo algorithm to test.
+	 * @param dc the same data center object used in actual prediction
+	 * @return the standard deviation of predicted ratings
 	 */
 	public static double trial(Algorithm algo, DataCenter dc) {
 		double sum = 0;
 		int count = 0;
+		int n = 0;
 		System.out.println("For algorithm: " + algo.getClass().getName() + "...");
 		long start = System.currentTimeMillis();
 		for (Integer uid: dc.getUsers().keySet()) {
@@ -143,9 +143,13 @@ public class Main {
 				count++;
 				long end = System.currentTimeMillis();
 				if (end - start > 10000) {
-					System.out.println(" - Heartbeating for " + (end - start) + " ms @" + count);
+					System.out.println(" - Heartbeating for " + (end - start) + " ms @" + count + " - " + n);
 					start = System.currentTimeMillis();
 				}
+			}
+			n++;
+			if (n >= 100) {
+				break;
 			}
 		}
 		return sum / count;

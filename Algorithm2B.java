@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * Use Baseline Predictor to make recommendations.
+ * @author Han Zhu
+ *
+ */
 public class Algorithm2B implements Algorithm {
 
 	private DataCenter dc;
@@ -28,7 +33,6 @@ public class Algorithm2B implements Algorithm {
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
-		
 
 		for (String mid: dc.getItems().keySet()) {
 			count++;
@@ -39,8 +43,7 @@ public class Algorithm2B implements Algorithm {
 
 			if (pq.size() < n) {
 				pq.offer(mc);
-			}
-			else if (pq.peek().getPredict() < mc.getPredict()) {
+			} else if (pq.peek().getPredict() < mc.getPredict()) {
 				pq.poll();
 				pq.offer(mc);
 			}
@@ -60,8 +63,8 @@ public class Algorithm2B implements Algorithm {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Get overall average rating.
+	 * @return overall average rating
 	 */
 	private double getAvg() {
 		if (avg != -1) {
@@ -80,9 +83,9 @@ public class Algorithm2B implements Algorithm {
 	}
 	
 	/**
-	 * 
-	 * @param uid
-	 * @return
+	 * Get the baseline prediction for a user.
+	 * @param uid user
+	 * @return baseline for user
 	 */
 	private double getUserBaseLine(int uid) {
 		if (userBaseLine.containsKey(uid)) {
@@ -100,9 +103,9 @@ public class Algorithm2B implements Algorithm {
 	}
 	
 	/**
-	 * 
-	 * @param mid
-	 * @return
+	 * Get the baseline prediction for an item.
+	 * @param mid item
+	 * @return baseline for an item
 	 */
 	private double getItemBaseLine(String mid) {
 		if (itemBaseLine.containsKey(mid)) {
