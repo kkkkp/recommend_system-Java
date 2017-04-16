@@ -19,7 +19,10 @@ public class User {
 	}
 	
 	/**
+<<<<<<< HEAD
+=======
 	 * Put data into hashmap.
+>>>>>>> zhuhan
 	 * @param mid item
 	 * @param score rating on the item.
 	 */

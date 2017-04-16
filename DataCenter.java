@@ -6,6 +6,7 @@ import java.util.*;
  *
  */
 public class DataCenter {
+
 	private HashMap<Integer, User> users;
 	private HashMap<String, Item> items;
 	private FileReaderFactory factory;

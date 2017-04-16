@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 
 [ticket: patrick_pu]
+=======
+Update corresponding changes from Movie to Item
+
+[xpu]
+>>>>>>> zhuhan
+=======
+Update corresponding changes from Movie to Item
+
+[xpu]
+
+[ticket: patrick_pu]
+>>>>>>> zhuhan

@@ -40,7 +40,7 @@ public class Item {
 		}
 		return avg;
 	}
-	
+
 	/**
 	 * Get a user's rating on this item.
 	 * @param uid user

@@ -7,6 +7,7 @@ public class ItemContainer implements Comparable<ItemContainer> {
 	private String mid;
 	private double predict;
 
+
 	/**
 	 * Assign mid and predicted rating to instance variables.
 	 * @param mid item id

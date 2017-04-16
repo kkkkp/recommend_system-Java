@@ -7,6 +7,7 @@ public class UserContainer implements Comparable<UserContainer>{
 	private int uid;
 	private double similarity;
 
+
 	/**
 	 * Assign user id and similarity to instance variables.
 	 * @param uid user id
@@ -24,6 +25,7 @@ public class UserContainer implements Comparable<UserContainer>{
 	public double getSimilarity() {
 		return similarity;
 	}
+
 
 	/**
 	 * Getter for user id.
