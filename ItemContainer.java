@@ -4,7 +4,7 @@
  *
  */
 public class ItemContainer implements Comparable<ItemContainer> {
-	private int mid;
+	private String mid;
 	private double predict;
 
 	/**
@@ -12,7 +12,7 @@ public class ItemContainer implements Comparable<ItemContainer> {
 	 * @param mid item id
 	 * @param predict predicted rating
 	 */
-	public ItemContainer(int mid, double predict) {
+	public ItemContainer(String mid, double predict) {
 		this.mid = mid;
 		this.predict = predict;
 	}
@@ -21,7 +21,7 @@ public class ItemContainer implements Comparable<ItemContainer> {
 	 * Getter for id.
 	 * @return item id.
 	 */
-	public int getId() {
+	public String getId() {
 		return mid;
 	}
 

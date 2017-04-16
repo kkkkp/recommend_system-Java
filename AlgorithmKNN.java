@@ -17,18 +17,20 @@ public class AlgorithmKNN implements Algorithm {
 	}
 
 	@Override
-	public double getRatingByUserAndItem(int uid, int mid) {
+	public double getRatingByUserAndItem(int uid, String mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
+//		System.out.println("neighbors: " + neighbors.size());
 		
 		double avg = dc.getAvgRatingScoreByUser(uid);
 		double numerator = 0, denominator = 0;
 		
 		for (Integer u: neighbors) {
 			double s = getSimilarity(uid, u);
+//			System.out.println("similarity: " + s);
 			numerator += s * (dc.getRating(u, mid) - dc.getAvgRatingScoreByUser(u));
 			denominator += Math.abs(s);
 		}
-				
+		
 		if (denominator == 0) {
 			return avg;
 		}
@@ -36,14 +38,14 @@ public class AlgorithmKNN implements Algorithm {
 	}
 
 	@Override
-	public Set<Integer> getTopNRatingItems(int uid, int n) {
-		Set<Integer> movies = new HashSet<>();
+	public Set<String> getTopNRatingItems(int uid, int n) {
+		Set<String> items = new HashSet<>();
 		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
 		int count = 0;
 		long start = System.currentTimeMillis();
 		long end = 0;
 		
-		for (Integer mid: dc.getItems().keySet()) {
+		for (String mid: dc.getItems().keySet()) {
 			count++;
 			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
@@ -65,19 +67,19 @@ public class AlgorithmKNN implements Algorithm {
 		}
 		
 		while (!pq.isEmpty()) {
-			movies.add(pq.poll().getId());
+			items.add(pq.poll().getId());
 		}
 		
-		return movies;
+		return items;
 	}
 	
 	/**
-	 * Get a user's neighbors - users who have rated the movie.
+	 * Get a user's neighbors - users who have rated the item.
 	 * @param uid user to predict
-	 * @param mid movie to predict
+	 * @param mid item to predict
 	 * @return a set of user ids.
 	 */
-	private Set<Integer> getNeighbors(int uid, int mid) {
+	private Set<Integer> getNeighbors(int uid, String mid) {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 		
@@ -121,12 +123,13 @@ public class AlgorithmKNN implements Algorithm {
 			return similarities.get(tuple);
 		}
 		
-		Set<Integer> commons = getCommonItems(uid1, uid2);
+		Set<String> commons = getCommonItems(uid1, uid2);
+//		System.out.println("commons: " + commons.size());
 		double numerator = 0, denominator1 = 0, denominator2 = 0, score1 = 0, score2 = 0, rst = 0;
 		double avg1 = dc.getAvgRatingScoreByUser(uid1);
 		double avg2 = dc.getAvgRatingScoreByUser(uid2);
 		
-		for (Integer m: commons) {
+		for (String m: commons) {
 			score1 = dc.getRating(uid1, m) - avg1;
 			score2 = dc.getRating(uid2, m) - avg2;
 			numerator += score1 * score2;
@@ -136,8 +139,7 @@ public class AlgorithmKNN implements Algorithm {
 		
 		if (denominator1 <= 0.00001 || denominator2 <= 0.00001) {
 			rst = 0;
-		}
-		else {
+		} else {
 			rst = numerator / (Math.sqrt(denominator1) * Math.sqrt(denominator2));
 		}
 		similarities.put(tuple, rst);
@@ -146,14 +148,14 @@ public class AlgorithmKNN implements Algorithm {
 	}
 	
 	/**
-	 * Find the movies that are rated by both users.
+	 * Find the items that are rated by both users.
 	 * @param uid1 id of first user
 	 * @param uid2 id of second user
-	 * @return common movies of both users.
+	 * @return common items of both users.
 	 */
-	private Set<Integer> getCommonItems(int uid1, int uid2) {
-		Set<Integer> rst = new HashSet<>(dc.getItemsByUser(uid1));
-		Set<Integer> compare = dc.getItemsByUser(uid2);
+	private Set<String> getCommonItems(int uid1, int uid2) {
+		Set<String> rst = new HashSet<>(dc.getItemsByUser(uid1));
+		Set<String> compare = dc.getItemsByUser(uid2);
 		rst.retainAll(compare);
 		return rst;
 	}

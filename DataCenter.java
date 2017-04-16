@@ -7,15 +7,17 @@ import java.util.*;
  */
 public class DataCenter {
 	private HashMap<Integer, User> users;
-	private HashMap<Integer, Item> items;
-	private MovieFileReader fr;
+	private HashMap<String, Item> items;
+	private FileReaderFactory factory;
+	private FileReader fr;
 	
 	/**
 	 * Initialize instance variables.
 	 */
-	public DataCenter() {
+	public DataCenter(String delimiter) {
 		this.users = new HashMap<>();
 		this.items = new HashMap<>();
+		this.factory = new FileReaderFactory(delimiter);
 	}
 	
 	/**
@@ -23,7 +25,7 @@ public class DataCenter {
 	 * @param filename name of file to read.
 	 */
 	public void loadData(String filename) {
-		this.fr = new MovieFileReader(filename, users, items);	
+		this.fr = factory.createFileReader(filename, users, items);
 	} 
 	
 	/**
@@ -38,7 +40,7 @@ public class DataCenter {
 	 * Get all items.
 	 * @return all items.
 	 */
-	public HashMap<Integer, Item> getItems() {
+	public HashMap<String, Item> getItems() {
 		return items;
 	}
 
@@ -48,7 +50,7 @@ public class DataCenter {
 	 * @param item item that users have all rated.
 	 * @return a set of user ids.
 	 */
-	public Set<Integer> getUsersByItem(int mid) {
+	public Set<Integer> getUsersByItem(String mid) {
 		return items.get(mid).getUsers();
 	}
 	
@@ -57,7 +59,7 @@ public class DataCenter {
 	 * @param user
 	 * @return all items that user have rated.
 	 */
-	public Set<Integer> getItemsByUser(int uid) {
+	public Set<String> getItemsByUser(int uid) {
 		return users.get(uid).getItems();
 	}
 	
@@ -67,7 +69,7 @@ public class DataCenter {
 	 * @param mid item
 	 * @return user's rating on item.
 	 */
-	public double getRating(int uid, int mid) {
+	public double getRating(int uid, String mid) {
 		return users.get(uid).getScore(mid);
 	}
 	

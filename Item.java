@@ -8,7 +8,7 @@ import java.util.*;
 public class Item {
 	private HashMap<Integer, Double> ratings;
 	private double avg;
-	
+
 	/**
 	 * Initialize instance variables.
 	 */

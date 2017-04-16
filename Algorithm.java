@@ -18,7 +18,7 @@ public interface Algorithm {
 	 * @param item
 	 * @return the predicted rating of user for item.
 	 */
-	public double getRatingByUserAndItem(int uid, int mid);
+	public double getRatingByUserAndItem(int uid, String mid);
 	
 	/**
 	 * Provide functionality b: given a user and a number n, predict user's top n highest-rated items.
@@ -26,5 +26,5 @@ public interface Algorithm {
 	 * @param n threshold
 	 * @return user's top n highest-rated items.
 	 */
-	public Set<Integer> getTopNRatingItems(int uid, int n);
+	public Set<String> getTopNRatingItems(int uid, int n);
 }

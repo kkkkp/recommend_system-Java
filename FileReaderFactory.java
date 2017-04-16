@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.HashMap;
+
 public class FileReaderFactory {
 	private String delimiter;
 	
@@ -6,15 +7,15 @@ public class FileReaderFactory {
 		this.delimiter = delimiter;
 	}
 	
-	public FileReader createFileReader() {
-		if (delimiter.equals("option1")) {
-
+	public FileReader createFileReader(String file, HashMap<Integer, User> users, HashMap<String, Item> items) {
+		if (delimiter.equals("::")) {
+			return new OldMovieFileReader(file, users, items);
 		}
-		else if (delimiter.equals("option2")) {
-			
+		else if (delimiter.equals("\"")) {
+			return new BookFileReader(file, users, items);
 		}
-		else if (delimiter.equals("option3")) {
-			
+		else if (delimiter.equals(",")) {
+			return new NewMovieFileReader(file, users, items);
 		}
 		else {
 			return null;
