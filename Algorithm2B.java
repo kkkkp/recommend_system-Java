@@ -4,7 +4,7 @@ public class Algorithm2B implements Algorithm {
 
 	private DataCenter dc;
 	private HashMap<Integer, Double> userBaseLine;
-	private HashMap<Integer, Double> itemBaseLine;
+	private HashMap<String, Double> itemBaseLine;
 	private double avg;
 	
 	@Override
@@ -16,13 +16,13 @@ public class Algorithm2B implements Algorithm {
 	}
 
 	@Override
-	public double getRatingByUserAndItem(int uid, int mid) {
+	public double getRatingByUserAndItem(int uid, String mid) {
 		return getAvg() + getUserBaseLine(uid) + getItemBaseLine(mid);
 	}
 
 	@Override
-	public Set<Integer> getTopNRatingItems(int uid, int n) {
-		Set<Integer> movies = new HashSet<>();
+	public Set<String> getTopNRatingItems(int uid, int n) {
+		Set<String> items = new HashSet<>();
 		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
 
 		int count = 0;
@@ -30,7 +30,7 @@ public class Algorithm2B implements Algorithm {
 		long end = 0;
 		
 
-		for (Integer mid: dc.getItems().keySet()) {
+		for (String mid: dc.getItems().keySet()) {
 			count++;
 			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
@@ -53,10 +53,10 @@ public class Algorithm2B implements Algorithm {
 		}
 		
 		while (!pq.isEmpty()) {
-			movies.add(pq.poll().getId());
+			items.add(pq.poll().getId());
 		}
 		
-		return movies;
+		return items;
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class Algorithm2B implements Algorithm {
 		double sum = 0;
 		int count = 0;
 		for (Integer uid: dc.getUsers().keySet()) {
-			for (Integer mid: dc.getItemsByUser(uid)) {
+			for (String mid: dc.getItemsByUser(uid)) {
 				sum += dc.getRating(uid, mid);
 				count++;
 			}
@@ -91,7 +91,7 @@ public class Algorithm2B implements Algorithm {
 		
 		double sum = 0;
 		double rst = 0;
-		for (Integer mid: dc.getItemsByUser(uid)) {
+		for (String mid: dc.getItemsByUser(uid)) {
 			sum += dc.getRating(uid, mid);
 		}
 		rst = sum / dc.getItemsByUser(uid).size() - getAvg();
@@ -104,7 +104,7 @@ public class Algorithm2B implements Algorithm {
 	 * @param mid
 	 * @return
 	 */
-	private double getItemBaseLine(int mid) {
+	private double getItemBaseLine(String mid) {
 		if (itemBaseLine.containsKey(mid)) {
 			return itemBaseLine.get(mid);
 		}

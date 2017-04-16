@@ -18,7 +18,7 @@ public class Algorithm2A implements Algorithm {
 	}
 
 	@Override
-	public double getRatingByUserAndItem(int uid, int mid) {
+	public double getRatingByUserAndItem(int uid, String mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
 		
 		double avg = dc.getAvgRatingScoreByUser(uid);
@@ -37,8 +37,8 @@ public class Algorithm2A implements Algorithm {
 	}
 
 	@Override
-	public Set<Integer> getTopNRatingItems(int uid, int n) {
-		Set<Integer> movies = new HashSet<>();
+	public Set<String> getTopNRatingItems(int uid, int n) {
+		Set<String> items = new HashSet<>();
 		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
 
 		int count = 0;
@@ -46,7 +46,7 @@ public class Algorithm2A implements Algorithm {
 		long end = 0;
 		
 
-		for (Integer mid: dc.getItems().keySet()) {
+		for (String mid: dc.getItems().keySet()) {
 			count++;
 			if (dc.getItemsByUser(uid).contains(mid)) {
 				continue;
@@ -69,19 +69,19 @@ public class Algorithm2A implements Algorithm {
 		}
 		
 		while (!pq.isEmpty()) {
-			movies.add(pq.poll().getId());
+			items.add(pq.poll().getId());
 		}
 		
-		return movies;
+		return items;
 	}
 	
 	/**
-	 * Get a user's neighbors - users who have rated the movie.
+	 * Get a user's neighbors - users who have rated the item.
 	 * @param uid user to predict
-	 * @param mid movie to predict
+	 * @param mid item to predict
 	 * @return a set of user ids.
 	 */
-	private Set<Integer> getNeighbors(int uid, int mid) {
+	private Set<Integer> getNeighbors(int uid, String mid) {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 

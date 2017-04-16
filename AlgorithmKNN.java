@@ -10,7 +10,6 @@ public class AlgorithmKNN implements Algorithm {
 	private int SIZE = 20;
 	private HashMap<int[], Double> similarities;
 
-
 	@Override
 	public void loadDataCenter(DataCenter dc) {
 		this.dc = dc;

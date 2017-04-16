@@ -7,12 +7,34 @@ import java.util.*;
  */
 public class Main {
 	public static void main(String[] args) {
-		Algorithm algo = new AlgorithmKNN();
-
-		Scanner in = new Scanner(System.in);		
+		Scanner in = new Scanner(System.in);
 		
 		System.out.println("Enter a filename: ");
 		String filename = in.nextLine();
+		
+		Algorithm algo = null;
+		System.out.println("Choose an algorithm: ");
+		System.out.println("\t1. kNN with Pearson correlation");
+		System.out.println("\t2. kNN with cosine similarity");
+		System.out.println("\t3. Baseline predictor");
+		
+		int choice = in.nextInt();
+		in.nextLine();
+		switch (choice) {
+			case 1:
+				algo = new AlgorithmKNN();
+				break;
+			case 2:
+				algo = new Algorithm2A();
+				break;
+			case 3:
+				algo = new Algorithm2B();
+				break;
+			default:
+				System.out.println("Please enter a valid choice");
+				in.close();
+				return;
+		}
 		
 		System.out.println("Enter the file delimiter: ");
 		String delimiter = in.nextLine();
@@ -27,15 +49,13 @@ public class Main {
 		
 		System.out.println("Enter a threshold: ");
 		int n = in.nextInt();
-
 		
 		load(dc, algo, filename);
 		predict(algo, uid, mid);
 		topN(algo, uid, n);
+		experiment(dc);
 
 		in.close();
-//		TODO: to see 2C, uncomment
-//		experiment(dc);
 	}
 	
 	/**
@@ -118,7 +138,7 @@ public class Main {
 		System.out.println("For algorithm: " + algo.getClass().getName() + "...");
 		long start = System.currentTimeMillis();
 		for (Integer uid: dc.getUsers().keySet()) {
-			for (Integer mid: dc.getItemsByUser(uid)) {
+			for (String mid: dc.getItemsByUser(uid)) {
 				sum += Math.pow(dc.getRating(uid, mid) - algo.getRatingByUserAndItem(uid, mid), 2);
 				count++;
 				long end = System.currentTimeMillis();
