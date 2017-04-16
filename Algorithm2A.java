@@ -37,7 +37,6 @@ public class Algorithm2A implements Algorithm {
 	}
 
 	@Override
-
 	public Set<Integer> getTopNRatingItems(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
 		PriorityQueue<ItemContainer> pq = new PriorityQueue<>();
@@ -53,6 +52,7 @@ public class Algorithm2A implements Algorithm {
 				continue;
 			}
 			ItemContainer mc = new ItemContainer(mid, getRatingByUserAndItem(uid, mid));
+
 			if (pq.size() < n) {
 				pq.offer(mc);
 			}
@@ -84,7 +84,6 @@ public class Algorithm2A implements Algorithm {
 	private Set<Integer> getNeighbors(int uid, int mid) {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
-		
 
 		for (Integer n: dc.getUsersByItem(mid)) {
 			if (uid == n) {
@@ -158,16 +157,9 @@ public class Algorithm2A implements Algorithm {
 		}
 		
 		double rst = 0;
-		
+
 		similarities.put(tuple, rst);
 
-		for (Integer id: dc.getItemsByUser(uid1)) {
-			if (dc.getItemsByUser(uid2).contains(id)) {
-				rst += dc.getRating(uid1, id) * dc.getRating(uid2, id);
-			}
-		}
-		
-		similarities.put(tuple, rst);
 		return rst;
 	}
 }

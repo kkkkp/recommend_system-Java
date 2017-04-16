@@ -7,6 +7,12 @@ public class ItemContainer implements Comparable<ItemContainer> {
 	private int mid;
 	private double predict;
 
+
+	/**
+	 * Assign mid and predicted rating to instance variables.
+	 * @param mid item id
+	 * @param predict predicted rating
+	 */
 	public ItemContainer(int mid, double predict) {
 		this.mid = mid;
 		this.predict = predict;

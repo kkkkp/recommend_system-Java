@@ -6,12 +6,10 @@ import java.util.*;
  *
  */
 public class DataCenter {
-	/**
-	 * 
-	 */
+
 	private HashMap<Integer, User> users;
 	private HashMap<Integer, Item> items;
-	private FileReader fr;
+	private MovieFileReader fr;
 	
 	/**
 	 * Initialize instance variables.
@@ -26,7 +24,7 @@ public class DataCenter {
 	 * @param filename name of file to read.
 	 */
 	public void loadData(String filename) {
-		this.fr = new FileReader(filename, users, items);	
+		this.fr = new MovieFileReader(filename, users, items);	
 	} 
 	
 	/**

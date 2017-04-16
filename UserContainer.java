@@ -31,7 +31,6 @@ public class UserContainer implements Comparable<UserContainer>{
 	 * Getter for user id.
 	 * @return user id
 	 */
-
 	public int getId() {
 		return uid;
 	}

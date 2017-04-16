@@ -17,7 +17,6 @@ public class AlgorithmKNN implements Algorithm {
 		this.similarities = new HashMap<>();
 	}
 
-	
 	@Override
 	public double getRatingByUserAndItem(int uid, int mid) {
 		Set<Integer> neighbors = getNeighbors(uid, mid);
@@ -37,7 +36,6 @@ public class AlgorithmKNN implements Algorithm {
 		return avg + (numerator / denominator);
 	}
 
-	
 	@Override
 	public Set<Integer> getTopNRatingItems(int uid, int n) {
 		Set<Integer> movies = new HashSet<>();
@@ -74,8 +72,6 @@ public class AlgorithmKNN implements Algorithm {
 		return movies;
 	}
 	
-
-	
 	/**
 	 * Get a user's neighbors - users who have rated the movie.
 	 * @param uid user to predict
@@ -86,7 +82,6 @@ public class AlgorithmKNN implements Algorithm {
 		Set<Integer> neighbors = new HashSet<>();
 		PriorityQueue<UserContainer> pq = new PriorityQueue<>();
 		
-
 		for (Integer n: dc.getUsersByItem(mid)) {
 			if (uid == n) {
 				continue;

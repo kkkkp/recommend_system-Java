@@ -39,7 +39,6 @@ public class Main {
 	 * @param algo predictor.
 	 * @param filename file to read.
 	 */
-
 	public static void load(DataCenter dc, Algorithm algo, String filename) {
 		System.out.println("\nLoading data...");
 		long start = System.currentTimeMillis();
