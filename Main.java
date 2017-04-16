@@ -28,9 +28,10 @@ public class Main {
 		load(dc, algo, filename);
 		predict(algo, uid, mid);
 		topN(algo, uid, n);
-		
 
 		in.close();
+//		TODO: to see 2C, uncomment
+//		experiment(dc);
 	}
 	
 	/**
@@ -78,5 +79,51 @@ public class Main {
 		long end = System.currentTimeMillis();
 		System.out.println("Items: " + predictions);
 		System.out.println("done (" + (end - start) + " ms)");
+	}
+	
+	/**
+	 * 
+	 * @param dc
+	 * @param filename
+	 */
+	public static void experiment(DataCenter dc) {
+		Algorithm knnPearson = new AlgorithmKNN();
+		Algorithm knnCosine = new Algorithm2A();
+		Algorithm baseline = new Algorithm2B();
+		
+		knnPearson.loadDataCenter(dc);
+		knnCosine.loadDataCenter(dc);
+		baseline.loadDataCenter(dc);
+		
+		double[] mse = new double[3];
+		mse[0] = trial(knnPearson, dc);
+		mse[1] = trial(knnCosine, dc);
+		mse[2] = trial(baseline, dc);
+		System.out.println("The standard deviation of prediciton: " + Arrays.toString(mse));
+	}
+	
+	/**
+	 * 
+	 * @param algo
+	 * @param dc
+	 * @return
+	 */
+	public static double trial(Algorithm algo, DataCenter dc) {
+		double sum = 0;
+		int count = 0;
+		System.out.println("For algorithm: " + algo.getClass().getName() + "...");
+		long start = System.currentTimeMillis();
+		for (Integer uid: dc.getUsers().keySet()) {
+			for (Integer mid: dc.getItemsByUser(uid)) {
+				sum += Math.pow(dc.getRating(uid, mid) - algo.getRatingByUserAndItem(uid, mid), 2);
+				count++;
+				long end = System.currentTimeMillis();
+				if (end - start > 10000) {
+					System.out.println(" - Heartbeating for " + (end - start) + " ms @" + count);
+					start = System.currentTimeMillis();
+				}
+			}
+		}
+		return sum / count;
 	}
 }
