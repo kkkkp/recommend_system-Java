@@ -15,10 +15,10 @@ public interface Algorithm {
 	/**
 	 * Provide functionality a: given a user and item, predict the user's preference for the item.
 	 * @param user 
-	 * @param movie
-	 * @return the predicted rating of user for movie.
+	 * @param item
+	 * @return the predicted rating of user for item.
 	 */
-	public double getRatingByUserAndMovie(int uid, int mid);
+	public double getRatingByUserAndItem(int uid, String mid);
 	
 	/**
 	 * Provide functionality b: given a user and a number n, predict user's top n highest-rated items.
@@ -26,5 +26,5 @@ public interface Algorithm {
 	 * @param n threshold
 	 * @return user's top n highest-rated items.
 	 */
-	public Set<Integer> getTopNRatingMovies(int uid, int n);
+	public Set<String> getTopNRatingItems(int uid, int n);
 }

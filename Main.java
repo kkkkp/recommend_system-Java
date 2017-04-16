@@ -7,18 +7,45 @@ import java.util.*;
  */
 public class Main {
 	public static void main(String[] args) {
-		DataCenter dc = new DataCenter();
-		Algorithm algo = new AlgorithmKNN();
-		Scanner in = new Scanner(System.in);		
+		Scanner in = new Scanner(System.in);
 		
 		System.out.println("Enter a filename: ");
 		String filename = in.nextLine();
 		
+		Algorithm algo = null;
+		System.out.println("Choose an algorithm: ");
+		System.out.println("\t1. kNN with Pearson correlation");
+		System.out.println("\t2. kNN with cosine similarity");
+		System.out.println("\t3. Baseline predictor");
+		
+		int choice = in.nextInt();
+		in.nextLine();
+		switch (choice) {
+			case 1:
+				algo = new AlgorithmKNN();
+				break;
+			case 2:
+				algo = new Algorithm2A();
+				break;
+			case 3:
+				algo = new Algorithm2B();
+				break;
+			default:
+				System.out.println("Please enter a valid choice");
+				in.close();
+				return;
+		}
+		
+		System.out.println("Enter the file delimiter: ");
+		String delimiter = in.nextLine();
+		DataCenter dc = new DataCenter(delimiter);
+		
 		System.out.println("Enter user id: ");
 		int uid = in.nextInt();
+		in.nextLine();
 		
-		System.out.println("Enter movie id: ");
-		int mid = in.nextInt();
+		System.out.println("Enter item id: ");
+		String mid = in.nextLine();
 		
 		System.out.println("Enter a threshold: ");
 		int n = in.nextInt();
@@ -26,7 +53,8 @@ public class Main {
 		load(dc, algo, filename);
 		predict(algo, uid, mid);
 		topN(algo, uid, n);
-		
+		experiment(dc);
+
 		in.close();
 	}
 	
@@ -44,24 +72,24 @@ public class Main {
 		System.out.println("done (" + (end - start) + " ms)");
 		algo.loadDataCenter(dc);
 	}
-	
+
 	/**
-	 * Predict a user's rating on a movie and display elapsed time.
+	 * Predict a user's rating on a item and display elapsed time.
 	 * @param algo prediction algorithm to use
 	 * @param uid user
-	 * @param mid movie
+	 * @param mid item
 	 */
-	public static void predict(Algorithm algo, int uid, int mid) {
+	public static void predict(Algorithm algo, int uid, String mid) {
 		System.out.println("\nGetting prediction...");
 		long start = System.currentTimeMillis();
-		double rating = algo.getRatingByUserAndMovie(uid, mid);
+		double rating = algo.getRatingByUserAndItem(uid, mid);
 		long end = System.currentTimeMillis();
 		System.out.println("Rating [rating = " + rating + "]");
 		System.out.println("done (" + (end - start) + " ms)");
 	}
 	
 	/**
-	 * Predict a user's top n highest-rated movies.
+	 * Predict a user's top n highest-rated items.
 	 * @param algo prediction algorithm to use
 	 * @param uid user
 	 * @param n threshold
@@ -69,9 +97,61 @@ public class Main {
 	public static void topN(Algorithm algo, int uid, int n) {
 		System.out.println("\nGetting top-n predictions...");
 		long start = System.currentTimeMillis();
-		Set<Integer> predictions = algo.getTopNRatingMovies(uid, n);
+		Set<String> predictions = algo.getTopNRatingItems(uid, n);
 		long end = System.currentTimeMillis();
-		System.out.println("Movies: " + predictions);
+		System.out.println("Items: " + predictions);
 		System.out.println("done (" + (end - start) + " ms)");
+	}
+	
+	/**
+	 * For a sample of users (100 total), for every item that the user has rated, run every algorithm to predict the rating, and compare result with the ground
+	 * truth. 
+	 * @param dc the same data center object used in actual prediction
+	 */
+	public static void experiment(DataCenter dc) {
+		System.out.println("\nExperiment...");
+		Algorithm knnPearson = new AlgorithmKNN();
+		Algorithm knnCosine = new Algorithm2A();
+		Algorithm baseline = new Algorithm2B();
+		
+		knnPearson.loadDataCenter(dc);
+		knnCosine.loadDataCenter(dc);
+		baseline.loadDataCenter(dc);
+		
+		double[] mse = new double[3];
+		mse[0] = trial(knnPearson, dc);
+		mse[1] = trial(knnCosine, dc);
+		mse[2] = trial(baseline, dc);
+		System.out.println("The standard deviation of prediciton: " + Arrays.toString(mse));
+	}
+	
+	/**
+	 * Run the test for one algorithm.
+	 * @param algo algorithm to test.
+	 * @param dc the same data center object used in actual prediction
+	 * @return the standard deviation of predicted ratings
+	 */
+	public static double trial(Algorithm algo, DataCenter dc) {
+		double sum = 0;
+		int count = 0;
+		int n = 0;
+		System.out.println("For algorithm: " + algo.getClass().getName() + "...");
+		long start = System.currentTimeMillis();
+		for (Integer uid: dc.getUsers().keySet()) {
+			for (String mid: dc.getItemsByUser(uid)) {
+				sum += Math.pow(dc.getRating(uid, mid) - algo.getRatingByUserAndItem(uid, mid), 2);
+				count++;
+				long end = System.currentTimeMillis();
+				if (end - start > 10000) {
+					System.out.println(" - Heartbeating for " + (end - start) + " ms @" + count + " - " + n);
+					start = System.currentTimeMillis();
+				}
+			}
+			n++;
+			if (n >= 100) {
+				break;
+			}
+		}
+		return sum / count;
 	}
 }

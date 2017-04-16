@@ -1,27 +1,28 @@
 /**
- * For priority queue in AlgorithmKNN
+ * For priority queue in AlgorithmKNN and Algorithm2A
  * @author Patrick_Pu
  *
  */
-public class MovieContainer implements Comparable<MovieContainer> {
-	private int mid;
+public class ItemContainer implements Comparable<ItemContainer> {
+	private String mid;
 	private double predict;
+
 
 	/**
 	 * Assign mid and predicted rating to instance variables.
-	 * @param mid movie id
+	 * @param mid item id
 	 * @param predict predicted rating
 	 */
-	public MovieContainer(int mid, double predict) {
+	public ItemContainer(String mid, double predict) {
 		this.mid = mid;
 		this.predict = predict;
 	}
 
 	/**
 	 * Getter for id.
-	 * @return movie id.
+	 * @return item id.
 	 */
-	public int getId() {
+	public String getId() {
 		return mid;
 	}
 
@@ -34,7 +35,7 @@ public class MovieContainer implements Comparable<MovieContainer> {
 	}
 
 	@Override
-	public int compareTo(MovieContainer o) {
+	public int compareTo(ItemContainer o) {
 		return Double.compare(this.predict, o.getPredict());
 	}
 }

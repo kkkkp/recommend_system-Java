@@ -1,11 +1,12 @@
 /**
- * For priority queue in AlgorithmKNN
+ * For priority queue in AlgorithmKNN and Algorithm2A
  * @author Patrick_Pu
  *
  */
 public class UserContainer implements Comparable<UserContainer>{
 	private int uid;
 	private double similarity;
+
 
 	/**
 	 * Assign user id and similarity to instance variables.
@@ -24,6 +25,7 @@ public class UserContainer implements Comparable<UserContainer>{
 	public double getSimilarity() {
 		return similarity;
 	}
+
 
 	/**
 	 * Getter for user id.

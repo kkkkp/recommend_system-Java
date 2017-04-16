@@ -1,25 +1,25 @@
 import java.util.*;
 
 /**
- * Wrapper class for a movie.
+ * Wrapper class for a item.
  * @author Han Zhu
  *
  */
-public class Movie {
+public class Item {
 	private HashMap<Integer, Double> ratings;
 	private double avg;
-	
+
 	/**
 	 * Initialize instance variables.
 	 */
-	public Movie() {
+	public Item() {
 		this.ratings = new HashMap<>();
 		this.avg = -1;
 	}
 	
 	/**
 	 * Put data into hashmap.
-	 * @param uid user who rated this movie
+	 * @param uid user who rated this item
 	 * @param score rating
 	 */
 	public void insert(int uid, double score) {
@@ -27,8 +27,8 @@ public class Movie {
 	}
 	
 	/**
-	 * Calcuate average rating of this movie.
-	 * @return average rating of this movie.
+	 * Calcuate average rating of this item.
+	 * @return average rating of this item.
 	 */
 	public double getAvg() {
 		if (avg == -1) {
@@ -40,19 +40,19 @@ public class Movie {
 		}
 		return avg;
 	}
-	
+
 	/**
-	 * Get a user's rating on this movie.
+	 * Get a user's rating on this item.
 	 * @param uid user
-	 * @return rating on this movie.
+	 * @return rating on this item.
 	 */
 	public double getScore(int uid) {
 		return ratings.get(uid);
 	}
 	
 	/**
-	 * Get all users who rated this movie.
-	 * @return all users who rated this movie.
+	 * Get all users who rated this item.
+	 * @return all users who rated this item.
 	 */
 	public Set<Integer> getUsers() {
 		return ratings.keySet();

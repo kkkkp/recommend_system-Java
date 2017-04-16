@@ -6,16 +6,19 @@ import java.util.*;
  *
  */
 public class DataCenter {
+
 	private HashMap<Integer, User> users;
-	private HashMap<Integer, Movie> movies;
+	private HashMap<String, Item> items;
+	private FileReaderFactory factory;
 	private FileReader fr;
 	
 	/**
 	 * Initialize instance variables.
 	 */
-	public DataCenter() {
+	public DataCenter(String delimiter) {
 		this.users = new HashMap<>();
-		this.movies = new HashMap<>();
+		this.items = new HashMap<>();
+		this.factory = new FileReaderFactory(delimiter);
 	}
 	
 	/**
@@ -23,7 +26,7 @@ public class DataCenter {
 	 * @param filename name of file to read.
 	 */
 	public void loadData(String filename) {
-		this.fr = new FileReader(filename, users, movies);	
+		this.fr = factory.createFileReader(filename, users, items);
 	} 
 	
 	/**
@@ -35,39 +38,39 @@ public class DataCenter {
 	}
 	
 	/**
-	 * Get all movies.
-	 * @return all movies.
+	 * Get all items.
+	 * @return all items.
 	 */
-	public HashMap<Integer, Movie> getMovies() {
-		return movies;
+	public HashMap<String, Item> getItems() {
+		return items;
 	}
 
 	
 	/**
-	 * Get the users who have rated the movie.
-	 * @param movie movie that users have all rated.
+	 * Get the users who have rated the item.
+	 * @param item item that users have all rated.
 	 * @return a set of user ids.
 	 */
-	public Set<Integer> getUsersByMovie(int mid) {
-		return movies.get(mid).getUsers();
+	public Set<Integer> getUsersByItem(String mid) {
+		return items.get(mid).getUsers();
 	}
 	
 	/**
-	 * Get the movies that a user have rated.
+	 * Get the items that a user have rated.
 	 * @param user
-	 * @return all movies that user have rated.
+	 * @return all items that user have rated.
 	 */
-	public Set<Integer> getMoviesByUser(int uid) {
-		return users.get(uid).getMovies();
+	public Set<String> getItemsByUser(int uid) {
+		return users.get(uid).getItems();
 	}
 	
 	/**
-	 * Get a user rating on a movie.
+	 * Get a user rating on a item.
 	 * @param uid user
-	 * @param mid movie
-	 * @return user's rating on movie.
+	 * @param mid item
+	 * @return user's rating on item.
 	 */
-	public double getRating(int uid, int mid) {
+	public double getRating(int uid, String mid) {
 		return users.get(uid).getScore(mid);
 	}
 	
@@ -81,11 +84,11 @@ public class DataCenter {
 	}
 	
 	/**
-	 * Calculate average rating of a movie.
-	 * @param mid movie id
-	 * @return average rating of movie.
+	 * Calculate average rating of a item.
+	 * @param mid item id
+	 * @return average rating of item.
 	 */
-	public double getAvgRatingScoreByMovie(int mid) {
-		return movies.get(mid).getAvg();
+	public double getAvgRatingScoreByItem(int mid) {
+		return items.get(mid).getAvg();
 	}
 }

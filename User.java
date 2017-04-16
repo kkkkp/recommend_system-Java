@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class User {
 
-	private HashMap<Integer, Double> ratings;
+	private HashMap<String, Double> ratings;
 	private double avg;
 	
 	/**
@@ -20,10 +20,10 @@ public class User {
 	
 	/**
 	 * Put data into hashmap.
-	 * @param mid movie
-	 * @param score rating on the movie.
+	 * @param mid item
+	 * @param score rating on the item.
 	 */
-	public void insert(int mid, double score) {
+	public void insert(String mid, double score) {
 		ratings.put(mid, score);
 	}
 	
@@ -43,19 +43,19 @@ public class User {
 	}
 	
 	/**
-	 * Get this user's rating on a movie.
-	 * @param mid movie
-	 * @return this user's rating on the movie.
+	 * Get this user's rating on a item.
+	 * @param mid item
+	 * @return this user's rating on the item.
 	 */
-	public double getScore(int mid) {
+	public double getScore(String mid) {
 		return ratings.get(mid);
 	}
 	
 	/**
-	 * Get all movies rated by this user.
-	 * @return all movies rated by this user.
+	 * Get all items rated by this user.
+	 * @return all items rated by this user.
 	 */
-	public Set<Integer> getMovies() {
+	public Set<String> getItems() {
 		return ratings.keySet();
 	}
 }
